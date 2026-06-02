@@ -1,49 +1,75 @@
+# Sparky CIRC 2026 -- ros2_control controller configuration
+# Used by both Gazebo (GazeboSystem) and real hardware (ODriveHardwareInterface).
+#
+# Wheel geometry (Tasi design):
+#   wheel_radius:     0.099 m (~0.1 m)
+#   wheel_separation: 0.969 m (front and center axles, lateral L-R)
+#   rear_separation:  0.877 m (rear axle -- informational, tune wheel_separation
+#                               empirically if odometry drifts)
+#
+# To drive with teleop_twist_keyboard:
+#   ros2 run teleop_twist_keyboard teleop_twist_keyboard \
+#     --ros-args --remap cmd_vel:=/diff_drive_controller/cmd_vel
+
 controller_manager:
   ros__parameters:
     update_rate: 100  # Hz
 
-    wheel_controller:
-      type: velocity_controllers/JointGroupVelocityController
-
-    servo_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-#---------------wheel_velocity_controller----------------#
-wheel_controller:
+#---------------diff_drive_controller----------------#
+diff_drive_controller:
   ros__parameters:
-    type: velocity_controllers/JointGroupVelocityController
-    joints:
-      - middle_wheel_joint_right
-      - middle_wheel_joint_left
-      - front_wheel_joint_right
+    left_wheel_names:
       - front_wheel_joint_left
-      - rear_wheel_joint_right
+      - middle_wheel_joint_left
       - rear_wheel_joint_left
-    command_interfaces:
-      - velocity
-      - position
-    state_interfaces:
-      - position
-      - velocity
+    right_wheel_names:
+      - front_wheel_joint_right
+      - middle_wheel_joint_right
+      - rear_wheel_joint_right
 
+    wheel_separation: 0.969   # front/center lateral separation [m]
+    wheel_radius: 0.099       # [m]
 
-#---------------servo_velocity_controller----------------#
+    # Multipliers correct for flipped motor shaft orientation.
+    # If the rover drives backward on forward cmd_vel, negate both.
+    # If it spins in place, negate one side only. Verify on hardware.
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
 
-servo_controller:
-  ros__parameters:
-    type: joint_trajectory_controller/JointTrajectoryController
-    joints:
-      - front_wheel_joint_R
-      - front_wheel_joint_L
-      - rear_wheel_joint_R
-      - rear_wheel_joint_L
-    interface_name: position
-    command_interfaces:
-      - position
-      - velocity
-    state_interfaces:
-      - position
-      - velocity
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_footprint
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+
+    open_loop: false
+    enable_odom_tf: true
+
+    cmd_vel_timeout: 0.5
+
+    linear.x.has_velocity_limits: true
+    linear.x.has_acceleration_limits: true
+    linear.x.has_jerk_limits: false
+    linear.x.max_velocity: 1.0
+    linear.x.min_velocity: -1.0
+    linear.x.max_acceleration: 1.0
+    linear.x.min_acceleration: -1.0
+    linear.x.max_jerk: 0.0
+    linear.x.min_jerk: 0.0
+
+    angular.z.has_velocity_limits: true
+    angular.z.has_acceleration_limits: true
+    angular.z.has_jerk_limits: false
+    angular.z.max_velocity: 1.5
+    angular.z.min_velocity: -1.5
+    angular.z.max_acceleration: 1.0
+    angular.z.min_acceleration: -1.0
+    angular.z.max_jerk: 0.0
+    angular.z.min_jerk: 0.0

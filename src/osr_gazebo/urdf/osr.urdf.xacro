@@ -20,7 +20,18 @@
       <color rgba="0.5451 0.2706 0.0745 1"/>
     </material>
 
-    <xacro:include filename="$(find osr_gazebo)/urdf/gazebo.urdf.xacro"/>
+    <!-- Set use_odrive:=true for real hardware (ODriveHardwareInterface via CAN).
+         Set use_odrive:=false (default) for Gazebo simulation (GazeboSystem). -->
+    <xacro:arg name="use_odrive"    default="false"/>
+    <xacro:arg name="can_interface" default="can2"/>
+
+    <xacro:if value="$(arg use_odrive)">
+        <xacro:include filename="$(find osr_gazebo)/urdf/osr.ros2_control.xacro"/>
+    </xacro:if>
+    <xacro:unless value="$(arg use_odrive)">
+        <xacro:include filename="$(find osr_gazebo)/urdf/gazebo.urdf.xacro"/>
+    </xacro:unless>
+
     <xacro:include filename="$(find osr_gazebo)/urdf/insert_transmission.urdf.xacro"/>
 
     <link name="base_footprint"/>
@@ -283,13 +294,10 @@
             </inertial>
         </link>
 
-        <joint name="front_wheel_joint_${prefix}" type="revolute"> 
-        <!-- revolute continuous -->
+        <joint name="front_wheel_joint_${prefix}" type="fixed">
             <parent link="rocker_bogie_link_${prefix}_2"/>
             <origin rpy="0 0 0" xyz="0.170113 -0.000335 0.076721"/>
             <child link="front_wheel_link_${prefix}"/>
-            <limit effort="100000.0" velocity="10" lower="-0.523599" upper="0.523599"/>
-            <axis xyz="0 0 1"/>
         </joint>
 
         <link name="middle_wheel_link_${prefix}">
@@ -349,13 +357,10 @@
 
         </link>
 
-        <joint name="rear_wheel_joint_${prefix}" type="revolute">
-        <!-- revolute continuous -->
+        <joint name="rear_wheel_joint_${prefix}" type="fixed">
             <parent link="rocker_bogie_link_${prefix}_1"/>
             <origin rpy="0 0 0" xyz="-0.311763 0 -0.030379"/>
             <child link="rear_wheel_link_${prefix}"/>
-            <limit effort="100000.0" velocity="3" lower="-0.523599" upper="0.523599"/>
-            <axis xyz="0 0 1"/>
         </joint>
 
     </xacro:macro>
@@ -494,16 +499,19 @@
 
     <link name="imu_link"></link>
 
-    <xacro:insert_velocity_transmission name="rear_wheel_joint_right"/>
-    <xacro:insert_velocity_transmission name="rear_wheel_joint_left"/>
-    <xacro:insert_velocity_transmission name="middle_wheel_joint_right"/>
-    <xacro:insert_velocity_transmission name="middle_wheel_joint_left"/>
-    <xacro:insert_velocity_transmission name="front_wheel_joint_right"/>
-    <xacro:insert_velocity_transmission name="front_wheel_joint_left"/>
+    <!-- Transmissions are only used by Gazebo's hardware interface -->
+    <xacro:unless value="$(arg use_odrive)">
+        <xacro:insert_velocity_transmission name="rear_wheel_joint_right"/>
+        <xacro:insert_velocity_transmission name="rear_wheel_joint_left"/>
+        <xacro:insert_velocity_transmission name="middle_wheel_joint_right"/>
+        <xacro:insert_velocity_transmission name="middle_wheel_joint_left"/>
+        <xacro:insert_velocity_transmission name="front_wheel_joint_right"/>
+        <xacro:insert_velocity_transmission name="front_wheel_joint_left"/>
+    </xacro:unless>
 
-    <xacro:insert_position_transmission name="front_wheel_joint_R"/>
-    <xacro:insert_position_transmission name="front_wheel_joint_L"/>
-    <xacro:insert_position_transmission name="rear_wheel_joint_R"/>
-    <xacro:insert_position_transmission name="rear_wheel_joint_L"/>
+    <!-- Instantiate the ODrive ros2_control block for real hardware -->
+    <xacro:if value="$(arg use_odrive)">
+        <xacro:osr_ros2_control name="ODriveSystem" can_interface="$(arg can_interface)"/>
+    </xacro:if>
 
 </robot>

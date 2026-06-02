@@ -26,7 +26,9 @@
   <build_depend>trajectory_msgs</build_depend>
 
   <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
   <exec_depend>effort_controllers</exec_depend>
+  <exec_depend>odrive_ros2_control</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>gazebo_ros2_control</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
