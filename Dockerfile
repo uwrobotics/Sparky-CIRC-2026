@@ -39,8 +39,8 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG USERNAME=devuser
 
-RUN groupadd -g $GROUP_ID $USERNAME && \
-    useradd -m -u $USER_ID -g $GROUP_ID -s /bin/bash $USERNAME && \
+RUN groupadd -g $GROUP_ID -o $USERNAME 2>/dev/null || true && \
+    useradd -m -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USERNAME 2>/dev/null || true && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
