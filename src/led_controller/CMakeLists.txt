@@ -35,6 +35,9 @@ rosidl_get_typesupport_target(cpp_typesupport_target
 
 target_link_libraries(led_colour_controller "${cpp_typesupport_target}")
 
+# Replacing the rosidl_get_typesupport_target and target_link_libraries lines above with the one below also works
+# target_link_libraries(led_colour_controller ${PROJECT_NAME}__rosidl_typesupport_cpp)
+
 install(TARGETS led_colour_controller
   DESTINATION lib/${PROJECT_NAME})
 
