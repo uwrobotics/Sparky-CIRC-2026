@@ -7,7 +7,7 @@
 
 using namespace std::chrono_literals;
 
-typedef rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn LifecycleCallback;
+using LifecycleCallback = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
 class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
     public:
@@ -17,11 +17,13 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
             RCLCPP_INFO(this->get_logger(), "Configuring LED Colour Controller");
 
             pub_ = this->create_publisher<led_controller::msg::RGB>("led_colour", 10);
+
             timer_ = this->create_wall_timer(1s, std::bind(&LedColourControllerNode::publish_random_colour, this));
+            timer_->cancel(); // Start with the timer stopped
 
             publish_colour(255, 255, 0); // Turn to yellow after configuring
 
-            return LifecycleCallback::Success;
+            return LifecycleCallback::SUCCESS;
         }
 
         LifecycleCallback on_activate(const rclcpp_lifecycle::State &state) {
@@ -29,7 +31,9 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
 
             LifecycleNode::on_activate(state);
 
-            return LifecycleCallback::Success;
+            timer_->reset(); // Resume timer on activate
+
+            return LifecycleCallback::SUCCESS;
         }
 
         LifecycleCallback on_deactivate(const rclcpp_lifecycle::State &state) {
@@ -37,9 +41,11 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
 
             LifecycleNode::on_deactivate(state);
 
+            timer_->cancel();
+
             publish_colour(255, 0, 0); // Turn to red on deactivate
 
-            return LifecycleCallback::Success;
+            return LifecycleCallback::SUCCESS;
         }
 
         LifecycleCallback on_cleanup(const rclcpp_lifecycle::State &state) {
@@ -48,7 +54,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
             timer_.reset();
             pub_.reset();
 
-            return LifecycleCallback::Success;
+            return LifecycleCallback::SUCCESS;
         }
 
         LifecycleCallback on_shutdown(const rclcpp_lifecycle::State &state) {
@@ -57,7 +63,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
             timer_.reset();
             pub_.reset();
 
-            return LifecycleCallback::Success;
+            return LifecycleCallback::SUCCESS;
         }
 
     private:
@@ -67,7 +73,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
             colour->green_val = g;
             colour->blue_val = b;
 
-            RCLCPP_INFO("Publishing colour: R(%d), G(%d), B(%d)", colour->red_val, colour->green_val, colour->blue_val);
+            RCLCPP_INFO(this->get_logger(), "Publishing colour: R(%d), G(%d), B(%d)", colour->red_val, colour->green_val, colour->blue_val);
             pub_->publish(std::move(colour));
         };
         void publish_random_colour() {
