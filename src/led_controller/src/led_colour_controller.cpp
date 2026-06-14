@@ -77,4 +77,17 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
         // Using regular publisher to allow colour changing in inactive state
         std::shared_ptr<rclcpp::Publisher<led_controller::msg::RGB>> pub_;
         std::shared_ptr<rclcpp::TimerBase> timer_;
+};
+
+int main(int argc, char * argv[]) {
+    rclcpp::init(argc, argv);
+
+    rclcpp::executors::SingleThreadedExecutor executor;
+    auto node = std::make_shared<LedColourControllerNode>("led_colour_controller_node");
+
+    executor.add_node(node->get_node_base_interface());
+    executor.spin();
+
+    rclcpp::shutdown();
+    return 0;
 }
