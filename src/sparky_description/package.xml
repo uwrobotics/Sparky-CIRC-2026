@@ -1,13 +1,13 @@
 <package format="2">
-  <name>MR24-DT-A00.00_URDF</name>
+  <name>sparky_description</name>
   <version>1.0.0</version>
   <description>
-    <p>URDF Description package for MR24-DT-A00.00_URDF</p>
+    <p>URDF Description package for UWRobotics Sparky</p>
     <p>This package contains configuration data, 3D models and launch files
-for MR24-DT-A00.00_URDF robot</p>
+for Sparky 2026 robot exported from Solidworks</p>
   </description>
-  <author>TODO</author>
-  <maintainer email="TODO@email.com" />
+  <author>UWRobotics Team</author>
+  <maintainer email="uwaterloorobotics@gmail.com" />
   <license>BSD</license>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roslaunch</depend>

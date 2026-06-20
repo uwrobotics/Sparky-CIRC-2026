@@ -3,7 +3,7 @@
     name="model" />
   <param
     name="robot_description"
-    textfile="$(find MR24-DT-A00.00_URDF)/urdf/MR24-DT-A00.00_URDF.urdf" />
+    textfile="$(find sparky_description)/urdf/sparky_description.urdf" />
   <node
     name="joint_state_publisher_gui"
     pkg="joint_state_publisher_gui"
@@ -16,5 +16,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find MR24-DT-A00.00_URDF)/urdf.rviz" />
+    args="-d $(find sparky_description)/urdf.rviz" />
 </launch>

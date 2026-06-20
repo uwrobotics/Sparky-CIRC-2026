@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-project(MR24-DT-A00.00_URDF)
+project(sparky_description)
 
 find_package(catkin REQUIRED)
 
