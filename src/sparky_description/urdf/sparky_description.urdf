@@ -45,7 +45,7 @@
     </collision>
   </link>
   <link
-    name="Front_Left Wheel">
+    name="Front_Left_Wheel">
     <inertial>
       <origin
         xyz="3.55012533870269E-07 -1.14176087201434E-06 -0.00282335706328957"
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Front_Left Wheel.STL" />
+          filename="package://sparky_description/meshes/Front_Left_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -80,12 +80,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Front_Left Wheel.STL" />
+          filename="package://sparky_description/meshes/Front_Left_Wheel.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Front_Left Wheel Joint"
+    name="Front_Left_Wheel_Joint"
     type="continuous">
     <origin
       xyz="0.40398 0.43855 0.0080468"
@@ -93,12 +93,12 @@
     <parent
       link="base_link" />
     <child
-      link="Front_Left Wheel" />
+      link="Front_Left_Wheel" />
     <axis
       xyz="0 0 1" />
   </joint>
   <link
-    name="Front_right Wheel">
+    name="Front_right_Wheel">
     <inertial>
       <origin
         xyz="1.06050973658345E-06 5.52241652795882E-07 0.00282335706325032"
@@ -119,7 +119,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Front_right Wheel.STL" />
+          filename="package://sparky_description/meshes/Front_right_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -133,12 +133,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Front_right Wheel.STL" />
+          filename="package://sparky_description/meshes/Front_right_Wheel.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Front_Right Wheel Joint"
+    name="Front_Right_Wheel_Joint"
     type="continuous">
     <origin
       xyz="0.40398 -0.43855 0.0080468"
@@ -146,12 +146,12 @@
     <parent
       link="base_link" />
     <child
-      link="Front_right Wheel" />
+      link="Front_right_Wheel" />
     <axis
       xyz="0 0 -1" />
   </joint>
   <link
-    name="Center_Left Wheel">
+    name="Center_Left_Wheel">
     <inertial>
       <origin
         xyz="1.11808518894405E-06 -4.237183671707E-07 -0.00282335706325043"
@@ -172,7 +172,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Center_Left Wheel.STL" />
+          filename="package://sparky_description/meshes/Center_Left_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -186,12 +186,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Center_Left Wheel.STL" />
+          filename="package://sparky_description/meshes/Center_Left_Wheel.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Center_Left Wheel Joint"
+    name="Center_Left_Wheel_Joint"
     type="continuous">
     <origin
       xyz="0 0.48455 0"
@@ -199,12 +199,12 @@
     <parent
       link="base_link" />
     <child
-      link="Center_Left Wheel" />
+      link="Center_Left_Wheel" />
     <axis
       xyz="0 0 1" />
   </joint>
   <link
-    name="Center_Right Wheel">
+    name="Center_Right_Wheel">
     <inertial>
       <origin
         xyz="-1.11641784646122E-06 -4.28092206239405E-07 0.00282335706325082"
@@ -225,7 +225,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Center_Right Wheel.STL" />
+          filename="package://sparky_description/meshes/Center_Right_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -239,12 +239,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Center_Right Wheel.STL" />
+          filename="package://sparky_description/meshes/Center_Right_Wheel.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Center_Right Wheel Joint"
+    name="Center_Right_Wheel_Joint"
     type="continuous">
     <origin
       xyz="0 -0.48455 0"
@@ -252,12 +252,12 @@
     <parent
       link="base_link" />
     <child
-      link="Center_Right Wheel" />
+      link="Center_Right_Wheel" />
     <axis
       xyz="0 0 -1" />
   </joint>
   <link
-    name="Rear_Left Wheel">
+    name="Rear_Left_Wheel">
     <inertial>
       <origin
         xyz="-5.15946937229561E-07 -1.07863362758254E-06 -0.00282335706325049"
@@ -278,7 +278,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Rear_Left Wheel.STL" />
+          filename="package://sparky_description/meshes/Rear_Left_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -292,12 +292,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Rear_Left Wheel.STL" />
+          filename="package://sparky_description/meshes/Rear_Left_Wheel.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rear_Left Wheel Joint"
+    name="Rear_Left_Wheel_Joint"
     type="continuous">
     <origin
       xyz="-0.39807 0.48455 0.016315"
@@ -305,12 +305,12 @@
     <parent
       link="base_link" />
     <child
-      link="Rear_Left Wheel" />
+      link="Rear_Left_Wheel" />
     <axis
       xyz="0 0 1" />
   </joint>
   <link
-    name="Rear_Right Wheel">
+    name="Rear_Right_Wheel">
     <inertial>
       <origin
         xyz="-1.11699584365299E-06 -4.26581793611103E-07 0.00282335706325076"
@@ -331,7 +331,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Rear_Right Wheel.STL" />
+          filename="package://sparky_description/meshes/Rear_Right_Wheel.STL" />
       </geometry>
       <material
         name="">
@@ -345,12 +345,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://sparky_description/meshes/Rear_Right Wheel.STL" />
+          filename="package://sparky_description/meshes/Rear_Right_Wheel.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rear_Right Wheel Joint"
+    name="Rear_Right_Wheel_Joint"
     type="continuous">
     <origin
       xyz="-0.39807 -0.48455 0.016315"
@@ -358,7 +358,7 @@
     <parent
       link="base_link" />
     <child
-      link="Rear_Right Wheel" />
+      link="Rear_Right_Wheel" />
     <axis
       xyz="0 0 -1" />
   </joint>
