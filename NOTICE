@@ -1,0 +1,29 @@
+Sparky-CIRC-2026
+Copyright (c) 2026 UWRobotics
+
+This product is licensed under the MIT License (see LICENSE), and bundles the
+following third-party components under their own licenses:
+
+--------------------------------------------------------------------------------
+src/ros_odrive  (git submodule)
+  Upstream: https://github.com/odriverobotics/ros_odrive
+  Fork:     https://github.com/uwrobotics/ros_odrive
+  License:  MIT
+  Copyright (c) 2023 ODrive Robotics
+  See: src/ros_odrive/LICENSE
+
+--------------------------------------------------------------------------------
+src/osr_gazebo
+  Derived from:
+    - NASA JPL Open Source Rover
+      https://github.com/nasa-jpl/osr-rover-code
+      Copyright 2018 California Institute of Technology.
+      Government Sponsorship Acknowledged.
+    - dongjineee/rover_gazebo
+      https://github.com/dongjineee/rover_gazebo
+  License:  Apache License, Version 2.0
+  See: src/osr_gazebo/LICENSE
+
+  Modifications by UWRobotics for the Sparky CIRC 2026 rover are tracked in
+  this repository's git history.
+--------------------------------------------------------------------------------

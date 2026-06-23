@@ -26,10 +26,19 @@ RUN apt-get update && apt-get install -y \
     ros-humble-ament-xmllint \
     ros-humble-xacro \
     ros-humble-hardware-interface \
+    ros-humble-ros2-controllers \
     ros-humble-controller-manager \
-    ros-humble-diff-drive-controller \
-    ros-humble-joint-state-broadcaster \
     ros-humble-ros2controlcli \
+    ros-humble-diff-drive-controller \
+    ros-humble-joint-state-broadcasteou \
+    ros-humble-joint-state-publisher \
+    ros-humble-joint-state-publisher-gui \
+    ros-humble-rviz2 \
+    ros-humble-trajectory-msgs \
+    ros-humble-velocity-controllers \
+    ros-humble-joint-trajectory-controller \
+    ros-humble-gazebo-ros-pkgs \
+    ros-humble-gazebo-ros2-control-demos \
     cppcheck \
     uncrustify \
     && rm -rf /var/lib/apt/lists/*
