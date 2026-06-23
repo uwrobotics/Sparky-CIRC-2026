@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-controller-manager \
     ros-humble-ros2controlcli \
     ros-humble-diff-drive-controller \
-    ros-humble-joint-state-broadcasteou \
+    ros-humble-joint-state-broadcaster \
     ros-humble-joint-state-publisher \
     ros-humble-joint-state-publisher-gui \
     ros-humble-rviz2 \
