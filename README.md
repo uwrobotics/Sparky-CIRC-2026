@@ -7,7 +7,9 @@ This template is required by all UWRobotics software project.
 ```
 docker_demo/
 ├── Dockerfile              # Docker image definition
-├── docker-compose.yml      # Container orchestration
+├── docker-compose.yml      # Container orchestration (base, works on Ubuntu)
+├── docker-compose.wsl.yml  # WSL2-specific display overrides
+├── run.sh                  # Platform-aware launcher (auto-detects WSL vs Ubuntu)
 ├── scripts/                # Shell scripts
 │   ├── setup.sh            # Host-side: detects UID/GID, prepares .env
 │   ├── docker-entrypoint.sh# Container startup script
@@ -16,19 +18,60 @@ docker_demo/
 └── README.md               # This file
 ```
 
+## GUI / Display Setup (RViz2, Gazebo, Qt)
+
+The container supports graphical applications on both **native Ubuntu** and **WSL2**. Use `run.sh` instead of `docker compose` directly — it auto-detects your platform and merges the correct compose files.
+
+### Prerequisites (run on the host, outside Docker)
+
+**Grant Docker access to your X server:**
+```bash
+xhost +local:docker
+```
+
+**Verify `DISPLAY` is set:**
+```bash
+echo $DISPLAY   # should print :0 or :1
+```
+If empty, set it manually:
+```bash
+export DISPLAY=:0
+```
+
+### Platform differences
+
+| Setting | Native Ubuntu | WSL2 |
+|---|---|---|
+| Compose files | `docker-compose.yml` | `docker-compose.yml` + `docker-compose.wsl.yml` |
+| `XDG_RUNTIME_DIR` | `/run/user/1000` | `/mnt/wslg/runtime-dir` |
+| `/mnt/wslg` mount | not mounted | mounted |
+| Wayland | disabled | enabled |
+
+### Running with display support
+
+```bash
+# Use run.sh — it picks the right compose files automatically
+./run.sh up -d
+./run.sh exec ros2-dev bash
+
+# Then inside the container, GUI apps like RViz2 should work:
+ros2 launch <package> <launch_file>
+```
+
+---
+
 ## How to use UWRobotics Template
 
 ### 1. Build and run the Docker Container with Docker Compose 
 
 **Step 1: Build and Run Container**
 ```bash
-docker compose build
-
-# Build the Docker image and start container
-docker compose up -d
+# Use run.sh to auto-detect platform (WSL2 or Ubuntu)
+./run.sh build
+./run.sh up -d
 
 # Enter the container
-docker compose exec ros2-dev bash
+./run.sh exec ros2-dev bash
 ```
 
 **Step 2: Create New ROS2 Package Inside Container**
@@ -148,13 +191,14 @@ ros2 param get /node_name parameter_name
 
 2. **Start the development environment:**
    ```bash
-   docker compose build
-   docker compose up -d
+   xhost +local:docker   # allow Docker to use your display
+   ./run.sh build
+   ./run.sh up -d
    ```
 
 3. **Enter the container:**
    ```bash
-   docker compose exec ros2-dev bash
+   ./run.sh exec ros2-dev bash
    ```
 
 4. **Build and test your ROS2 packages:**
@@ -188,4 +232,8 @@ docker-compose down -v
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Copyright (c) 2026 UWRobotics. Note that the `src/ros_odrive` submodule is distributed under its own license (see `src/ros_odrive/LICENSE`).
+Copyright (c) 2026 UWRobotics.
+
+This repository bundles third-party components under their own licenses (see [NOTICE](NOTICE)):
+- `src/ros_odrive` (submodule) — MIT, © ODrive Robotics (see `src/ros_odrive/LICENSE`).
+- `src/osr_gazebo` — Apache-2.0, derived from the NASA JPL Open Source Rover (© 2018 California Institute of Technology) and dongjineee/rover_gazebo (see `src/osr_gazebo/LICENSE`).

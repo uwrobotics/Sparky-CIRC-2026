@@ -45,6 +45,20 @@ echo "✅ Created .env file with your user settings"
 mkdir -p build install log
 echo "✅ Created workspace directories (build, install, log)"
 
+# Install recommended VS Code extensions (e.g. the URDF visualizer) if the
+# `code` CLI is available. The .vscode/settings.json is already portable, this
+# just makes sure the extension that reads it is present.
+if command -v code >/dev/null 2>&1; then
+    while IFS= read -r ext; do
+        echo "🧩 Installing VS Code extension: $ext"
+        code --install-extension "$ext" --force >/dev/null
+    done < <(grep -oE '"[a-z0-9_-]+\.[a-z0-9_-]+"' .vscode/extensions.json | tr -d '"')
+    echo "✅ VS Code extensions installed"
+else
+    echo "ℹ️  'code' CLI not found — open the project in VS Code and accept the"
+    echo "   recommended-extensions prompt to install the URDF visualizer."
+fi
+
 # Handle directories that may have been previously created by Docker as root
 if [ "$(stat -c '%U' build)" != "$CURRENT_USER" ] || \
    [ "$(stat -c '%U' install)" != "$CURRENT_USER" ] || \
