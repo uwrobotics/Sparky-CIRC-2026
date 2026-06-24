@@ -27,3 +27,16 @@ src/osr_gazebo
   Modifications by UWRobotics for the Sparky CIRC 2026 rover are tracked in
   this repository's git history.
 --------------------------------------------------------------------------------
+src/dualshock4_teleop  (akros2_teleop)
+  Upstream: https://github.com/adityakamath/akros2_teleop
+  License:  Apache License, Version 2.0
+  Copyright (c) 2023 Aditya Kamath
+  See: src/dualshock4_teleop/LICENSE
+
+--------------------------------------------------------------------------------
+src/akros2_msgs
+  Upstream: https://github.com/adityakamath/akros2_msgs
+  License:  Apache License, Version 2.0
+  Copyright (c) 2023 Aditya Kamath
+  See: src/akros2_msgs/LICENSE
+--------------------------------------------------------------------------------

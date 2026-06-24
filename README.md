@@ -237,3 +237,5 @@ Copyright (c) 2026 UWRobotics.
 This repository bundles third-party components under their own licenses (see [NOTICE](NOTICE)):
 - `src/ros_odrive` (submodule) — MIT, © ODrive Robotics (see `src/ros_odrive/LICENSE`).
 - `src/osr_gazebo` — Apache-2.0, derived from the NASA JPL Open Source Rover (© 2018 California Institute of Technology) and dongjineee/rover_gazebo (see `src/osr_gazebo/LICENSE`).
+- `src/dualshock4_teleop` (akros2_teleop) — Apache-2.0, © 2023 Aditya Kamath (see `src/dualshock4_teleop/LICENSE`).
+- `src/akros2_msgs` — Apache-2.0, © 2023 Aditya Kamath (see `src/akros2_msgs/LICENSE`).

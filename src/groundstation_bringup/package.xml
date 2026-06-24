@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>groundstation_bringup</name>
+  <version>1.0.0</version>
+  <description>
+    Ground station bringup for the UWRobotics Sparky rover. Holds the
+    launch files and controller configs for teleoperation, reusing the
+    node executables from the akros2_teleop package. Customize controller
+    mappings and defaults here without modifying the akros2_teleop submodule.
+  </description>
+  <author>UWRobotics Team</author>
+  <maintainer email="uwaterloorobotics@gmail.com">UWRobotics Team</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Node executables come from akros2_teleop; joy/teleop_twist_joy provide
+       the controller driver and twist conversion. -->
+  <exec_depend>akros2_teleop</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>teleop_twist_joy</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
