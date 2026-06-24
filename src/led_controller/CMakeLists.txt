@@ -7,36 +7,19 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(std_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
-
-set(msg_files
-  "msg/RGB.msg"
-)
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
-)
-
-ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(led_colour_controller src/led_colour_controller.cpp)
 ament_target_dependencies(led_colour_controller
   rclcpp
   rclcpp_lifecycle
+  std_msgs
 )
-
-rosidl_get_typesupport_target(cpp_typesupport_target
-  ${PROJECT_NAME} rosidl_typesupport_cpp)
-
-target_link_libraries(led_colour_controller "${cpp_typesupport_target}")
-
-# Replacing the rosidl_get_typesupport_target and target_link_libraries lines above with the one below also works
-# target_link_libraries(led_colour_controller ${PROJECT_NAME}__rosidl_typesupport_cpp)
 
 install(TARGETS led_colour_controller
   DESTINATION lib/${PROJECT_NAME})
