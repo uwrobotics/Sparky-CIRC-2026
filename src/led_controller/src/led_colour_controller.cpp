@@ -74,7 +74,13 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
             colour->b = b;
             colour->a = a;
 
-            RCLCPP_INFO(this->get_logger(), "Publishing colour: R(%f), G(%f), B(%f), a(%f)", colour->r, colour->g, colour->b, colour->a);
+            RCLCPP_INFO(this->get_logger(), "Publishing colour: R(%f), G(%f), B(%f), a(%f)", 
+                colour->r,
+                colour->g,
+                colour->b,
+                colour->a
+            );
+            
             pub_->publish(std::move(colour));
         };
         void publish_random_colour() {
