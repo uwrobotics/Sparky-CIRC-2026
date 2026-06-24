@@ -3,7 +3,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
-#include "led_controller/msg/rgb.hpp"
+#include "std_msgs/msg/color_rgba.hpp"
 
 using namespace std::chrono_literals;
 
@@ -16,7 +16,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
         LifecycleCallback on_configure(const rclcpp_lifecycle::State &) {
             RCLCPP_INFO(this->get_logger(), "Configuring LED Colour Controller");
 
-            pub_ = this->create_publisher<led_controller::msg::RGB>("led_colour", 10);
+            pub_ = this->create_publisher<std_msgs::msg::ColorRGBA>("led_colour", 10);
 
             timer_ = this->create_wall_timer(1s, std::bind(&LedColourControllerNode::publish_random_colour, this));
             timer_->cancel(); // Start with the timer stopped
@@ -67,13 +67,14 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
         }
 
     private:
-        void publish_colour(std::uint8_t r, std::uint8_t g, std::uint8_t b) {
-            auto colour = std::make_unique<led_controller::msg::RGB>();
-            colour->red_val = r;
-            colour->green_val = g;
-            colour->blue_val = b;
+        void publish_colour(float r, float g, float b, float a = 0) {
+            auto colour = std::make_unique<std_msgs::msg::ColorRGBA>();
+            colour->r = r;
+            colour->g = g;
+            colour->b = b;
+            colour->a = a;
 
-            RCLCPP_INFO(this->get_logger(), "Publishing colour: R(%d), G(%d), B(%d)", colour->red_val, colour->green_val, colour->blue_val);
+            RCLCPP_INFO(this->get_logger(), "Publishing colour: R(%f), G(%f), B(%f), a(%f)", colour->r, colour->g, colour->b, colour->a);
             pub_->publish(std::move(colour));
         };
         void publish_random_colour() {
@@ -81,7 +82,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
         };
 
         // Using regular publisher to allow colour changing in inactive state
-        std::shared_ptr<rclcpp::Publisher<led_controller::msg::RGB>> pub_;
+        std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_;
         std::shared_ptr<rclcpp::TimerBase> timer_;
 };
 
