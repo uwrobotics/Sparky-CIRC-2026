@@ -14,7 +14,10 @@ find_package(std_msgs REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-add_executable(led_colour_controller src/led_colour_controller.cpp)
+add_executable(led_colour_controller
+  src/led_colour_controller.cpp
+  src/led.cpp
+)
 ament_target_dependencies(led_colour_controller
   rclcpp
   rclcpp_lifecycle

@@ -1,9 +1,8 @@
 #include <chrono>
-#include <cstdlib>
+#include <memory>
 
-#include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
-#include "std_msgs/msg/color_rgba.hpp"
+#include "led.hpp"
 
 using namespace std::chrono_literals;
 
@@ -18,10 +17,12 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
 
             pub_ = this->create_publisher<std_msgs::msg::ColorRGBA>("led_colour", 10);
 
-            timer_ = this->create_wall_timer(1s, std::bind(&LedColourControllerNode::publish_random_colour, this));
+            led_ = std::make_shared<LED>(pub_, this->get_logger());
+
+            timer_ = this->create_wall_timer(1s, std::bind(&LED::set_random_colour, led_.get()));
             timer_->cancel(); // Start with the timer stopped
 
-            publish_colour(255, 255, 0); // Turn to yellow after configuring
+            led_->set_colour(255, 255, 0); // Turn to yellow after configuring
 
             return LifecycleCallback::SUCCESS;
         }
@@ -43,7 +44,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
 
             timer_->cancel();
 
-            publish_colour(255, 0, 0); // Turn to red on deactivate
+            led_->set_colour(255, 0, 0); // Turn to red on deactivate
 
             return LifecycleCallback::SUCCESS;
         }
@@ -67,29 +68,10 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
         }
 
     private:
-        void publish_colour(float r, float g, float b, float a = 0) {
-            auto colour = std::make_unique<std_msgs::msg::ColorRGBA>();
-            colour->r = r;
-            colour->g = g;
-            colour->b = b;
-            colour->a = a;
-
-            RCLCPP_INFO(this->get_logger(), "Publishing colour: R(%f), G(%f), B(%f), a(%f)", 
-                colour->r,
-                colour->g,
-                colour->b,
-                colour->a
-            );
-            
-            pub_->publish(std::move(colour));
-        };
-        void publish_random_colour() {
-            publish_colour(rand() % 256, rand() % 256, rand() % 256);
-        };
-
         // Using regular publisher to allow colour changing in inactive state
         std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_;
         std::shared_ptr<rclcpp::TimerBase> timer_;
+        std::shared_ptr<LED> led_;
 };
 
 int main(int argc, char * argv[]) {
