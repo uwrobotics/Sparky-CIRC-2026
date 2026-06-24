@@ -8,4 +8,10 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Python helper nodes
+install(PROGRAMS
+  scripts/velocity_marker.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

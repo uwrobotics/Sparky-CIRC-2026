@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+  ros2_control-enabled Sparky model.
+
+  Wraps the pristine SolidWorks export (sparky_description.urdf) and bolts on the
+  ros2_control hardware block so diff_drive_controller can command each wheel.
+  Used by launch/control.launch.py.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sparky">
+
+  <!-- Backend selection -->
+  <xacro:arg name="use_mock_hardware" default="true"/>
+  <xacro:arg name="can_interface"     default="can0"/>
+
+  <!-- Pristine SolidWorks export: links + wheel joints. Do NOT edit it. -->
+  <xacro:include filename="$(find sparky_description)/urdf/sparky_description.urdf"/>
+
+  <!-- ros2_control hardware interface -->
+  <xacro:include filename="$(find sparky_description)/urdf/sparky.ros2_control.xacro"/>
+
+  <xacro:sparky_ros2_control
+    name="SparkyDrive"
+    use_mock_hardware="$(arg use_mock_hardware)"
+    can_interface="$(arg can_interface)"/>
+
+</robot>
