@@ -53,6 +53,8 @@ jobs:
             ros-humble-diff-drive-controller \
             ros-humble-joint-state-broadcaster \
             ros-humble-ros2controlcli \
+            ros-humble-joy \
+            ros-humble-teleop-twist-joy \
             cppcheck \
             uncrustify
 
