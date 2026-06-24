@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    ros2_control hardware description for the Sparky CIRC 2026 rover.
+
+    Each of the 6 drive wheels exposes a velocity command interface plus
+    position/velocity state interfaces, which is exactly what
+    diff_drive_controller needs to turn /cmd_vel into per-axis velocities.
+
+    Backends (selectable so the same model serves visualization and hardware):
+      use_mock_hardware=true (default)
+        mock_components/GenericSystem mirrors velocity commands to state and
+        integrates position. No physics, no hardware: perfect for RViz.
+      use_mock_hardware=false
+        odrive_ros2_control_plugin/ODriveHardwareInterface over SocketCAN, one
+        ODrive axis per wheel (node_id below). Wire this up later for the real
+        rover; CAN node IDs are placeholders, match them to the drivetrain.
+  -->
+  <xacro:macro name="sparky_ros2_control"
+               params="name use_mock_hardware:=true can_interface:=can0">
+
+    <ros2_control name="${name}" type="system">
+
+      <xacro:if value="${use_mock_hardware}">
+        <hardware>
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="calculate_dynamics">true</param>
+        </hardware>
+      </xacro:if>
+      <xacro:unless value="${use_mock_hardware}">
+        <hardware>
+          <plugin>odrive_ros2_control_plugin/ODriveHardwareInterface</plugin>
+          <param name="can">${can_interface}</param>
+        </hardware>
+      </xacro:unless>
+
+      <!-- Per-wheel joint definition. node_id is only used by the ODrive
+           backend; mock_components ignores it. -->
+      <xacro:macro name="drive_joint" params="name node_id">
+        <joint name="${name}">
+          <param name="node_id">${node_id}</param>
+          <command_interface name="velocity"/>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+      </xacro:macro>
+
+      <!-- Left side -->
+      <xacro:drive_joint name="Front_Left_Wheel_Joint"  node_id="1"/>
+      <xacro:drive_joint name="Center_Left_Wheel_Joint" node_id="3"/>
+      <xacro:drive_joint name="Rear_Left_Wheel_Joint"   node_id="5"/>
+
+      <!-- Right side -->
+      <xacro:drive_joint name="Front_Right_Wheel_Joint"  node_id="2"/>
+      <xacro:drive_joint name="Center_Right_Wheel_Joint" node_id="4"/>
+      <xacro:drive_joint name="Rear_Right_Wheel_Joint"   node_id="6"/>
+
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>

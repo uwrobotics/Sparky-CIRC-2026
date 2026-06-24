@@ -13,6 +13,16 @@
   <exec_depend>joint_state_publisher_gui</exec_depend>
   <exec_depend>rviz2</exec_depend>
   <exec_depend>xacro</exec_depend>
+  <!-- ros2_control stack (used by launch/control.launch.py) -->
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>ros2_controllers</exec_depend>
+  <!-- velocity_marker.py node -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
   <!-- Gazebo Classic (used by launch/gazebo.launch.py) -->
   <exec_depend>gazebo_ros</exec_depend>
 
