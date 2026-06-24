@@ -39,6 +39,8 @@ RUN apt-get update && apt-get install -y \
     ros-humble-joint-trajectory-controller \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-gazebo-ros2-control-demos \
+    ros-humble-joy \
+    ros-humble-teleop-twist-joy \
     cppcheck \
     uncrustify \
     && rm -rf /var/lib/apt/lists/*
@@ -47,11 +49,19 @@ RUN apt-get update && apt-get install -y \
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG USERNAME=devuser
+# Host 'input' group GID, for reading /dev/input/event* (game controllers).
+ARG INPUT_GID=994
 
 RUN groupadd -g $GROUP_ID -o $USERNAME 2>/dev/null || true && \
     useradd -m -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USERNAME 2>/dev/null || true && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Give the GID used for /dev/input a name so shells don't warn
+# ("cannot find name for group ID"), and add the user to it. The runtime
+# group_add in docker-compose.yml uses the same GID.
+RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
+    usermod -aG $INPUT_GID $USERNAME 2>/dev/null || true
 
 # Auto-source ROS env in interactive shells. `docker compose exec` does NOT
 # run the entrypoint, so without this, ament_* lint scripts fail with
