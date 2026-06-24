@@ -22,7 +22,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
             timer_ = this->create_wall_timer(1s, std::bind(&LED::set_random_colour, led_.get()));
             timer_->cancel(); // Start with the timer stopped
 
-            led_->set_colour(255, 255, 0); // Turn to yellow after configuring
+            led_->set_colour(LEDColours::YELLOW);
 
             return LifecycleCallback::SUCCESS;
         }
@@ -44,7 +44,7 @@ class LedColourControllerNode : public rclcpp_lifecycle::LifecycleNode {
 
             timer_->cancel();
 
-            led_->set_colour(255, 0, 0); // Turn to red on deactivate
+            led_->set_colour(LEDColours::RED);
 
             return LifecycleCallback::SUCCESS;
         }

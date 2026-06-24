@@ -19,6 +19,23 @@ void LED::set_colour(float r, float g, float b, float a) {
     pub_->publish(std::move(colour));
 };
 
+void LED::set_colour(LEDColours colour_name) {
+    switch(colour_name) {
+        case LEDColours::RED:
+            set_colour(255, 0, 0);
+            break;
+        case LEDColours::YELLOW:
+            set_colour(255, 255, 0);
+            break;
+        case LEDColours::GREEN:
+            set_colour(0, 255, 0);
+            break;
+        case LEDColours::WHITE:
+            set_colour(255, 255, 255);
+            break;
+    }
+};
+
 void LED::set_random_colour() {
     set_colour(rand() % 256, rand() % 256, rand() % 256);
 };
