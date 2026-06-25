@@ -3,7 +3,7 @@
 LED::LED(std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_, rclcpp::Logger logger)
 : pub_(pub_), logger(logger) {}
 
-void LED::set_colour(float r, float g, float b, float a)
+bool LED::set_colour(float r, float g, float b, float a)
 {
   auto colour = std::make_unique<std_msgs::msg::ColorRGBA>();
   colour->r = r;
@@ -20,9 +20,11 @@ void LED::set_colour(float r, float g, float b, float a)
   );
 
   pub_->publish(std::move(colour));
+
+  return true;
 }
 
-void LED::set_colour(LEDColours colour_name)
+bool LED::set_colour(LEDColours colour_name)
 {
   switch (colour_name) {
     case LEDColours::RED:
@@ -46,10 +48,15 @@ void LED::set_colour(LEDColours colour_name)
     case LEDColours::WHITE:
       set_colour(255, 255, 255);
       break;
+    default:
+      RCLCPP_INFO(logger, "The following LEDColours enum did not map to an existing colour value: %s");
+      return false;
   }
+
+  return true;
 }
 
-void LED::set_random_colour()
+bool LED::set_random_colour()
 {
-  set_colour(rand() % 256, rand() % 256, rand() % 256);
+  return set_colour(rand() % 256, rand() % 256, rand() % 256);
 }
