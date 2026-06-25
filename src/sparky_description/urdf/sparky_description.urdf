@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="sparky_description">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0281191794438821 0.000885923205321679 0.0975795573636287"
+        rpy="0 0 0" />
+      <mass
+        value="9.38345533967685" />
+      <inertia
+        ixx="0.0207681971565289"
+        ixy="-1.84275584573328E-06"
+        ixz="0.00110801941555495"
+        iyy="0.0130902222960498"
+        iyz="1.01248654001094E-09"
+        izz="0.0292659491028058" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Front_Left_Wheel">
+    <inertial>
+      <origin
+        xyz="3.55012533870269E-07 -1.14176087201434E-06 -0.00282335706328957"
+        rpy="0 0 0" />
+      <mass
+        value="1.45375895562109" />
+      <inertia
+        ixx="0.00515686581381362"
+        ixy="-3.44223719205969E-09"
+        ixz="-1.56145325836781E-09"
+        iyy="0.0051568758701414"
+        iyz="5.01534250691395E-09"
+        izz="0.00750126301372881" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Front_Left_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba=".02 .02 .02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Front_Left_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Front_Left_Wheel_Joint"
+    type="continuous">
+    <origin
+      xyz="0.40398 0.43855 0.0080468"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Front_Left_Wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Front_right_Wheel">
+    <inertial>
+      <origin
+        xyz="1.06050973658345E-06 5.52241652795882E-07 0.00282335706325032"
+        rpy="0 0 0" />
+      <mass
+        value="1.45375895562017" />
+      <inertia
+        ixx="0.00515687432277809"
+        ixy="5.00154581532084E-09"
+        ixz="4.65985287339601E-09"
+        iyy="0.00515686736117692"
+        iyz="2.42436984167163E-09"
+        izz="0.00750126301372899" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Front_right_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba=".02 .02 .02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Front_right_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Front_Right_Wheel_Joint"
+    type="continuous">
+    <origin
+      xyz="0.40398 -0.43855 0.0080468"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Front_right_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="Center_Left_Wheel">
+    <inertial>
+      <origin
+        xyz="1.11808518894405E-06 -4.237183671707E-07 -0.00282335706325043"
+        rpy="0 0 0" />
+      <mass
+        value="1.45375895562015" />
+      <inertia
+        ixx="0.00515687539452509"
+        ixy="-4.05040199239412E-09"
+        ixz="-4.91258333423227E-09"
+        iyy="0.00515686628943447"
+        iyz="1.85965689070785E-09"
+        izz="0.00750126301373391" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Center_Left_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba=".02 .02 .02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Center_Left_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Center_Left_Wheel_Joint"
+    type="continuous">
+    <origin
+      xyz="0 0.48455 0"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Center_Left_Wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Center_Right_Wheel">
+    <inertial>
+      <origin
+        xyz="-1.11641784646122E-06 -4.28092206239405E-07 0.00282335706325082"
+        rpy="0 0 0" />
+      <mass
+        value="1.45375895562016" />
+      <inertia
+        ixx="0.00515687536267289"
+        ixy="4.08592255666919E-09"
+        ixz="-4.90526552389645E-09"
+        iyy="0.0051568663212867"
+        iyz="-1.87887424600649E-09"
+        izz="0.00750126301373415" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Center_Right_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba=".02 .02 .02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Center_Right_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Center_Right_Wheel_Joint"
+    type="continuous">
+    <origin
+      xyz="0 -0.48455 0"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Center_Right_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="Rear_Left_Wheel">
+    <inertial>
+      <origin
+        xyz="-5.15946937229561E-07 -1.07863362758254E-06 -0.00282335706325049"
+        rpy="0 0 0" />
+      <mass
+        value="1.45375895562016" />
+      <inertia
+        ixx="0.00515686703003963"
+        ixy="4.75400283841641E-09"
+        ixz="2.26489334867265E-09"
+        iyy="0.00515687465391779"
+        iyz="4.73941536895916E-09"
+        izz="0.00750126301373237" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Rear_Left_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba=".02 .02 .02 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Rear_Left_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Rear_Left_Wheel_Joint"
+    type="continuous">
+    <origin
+      xyz="-0.39807 0.48455 0.016315"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Rear_Left_Wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Rear_Right_Wheel">
+    <inertial>
+      <origin
+        xyz="-1.11699584365299E-06 -4.26581793611103E-07 0.00282335706325076"
+        rpy="0 0 0" />
+      <mass
+        value="1.45375895562016" />
+      <inertia
+        ixx="0.00515687537370834"
+        ixy="4.07367856335135E-09"
+        ixz="-4.90780191792279E-09"
+        iyy="0.00515686631024968"
+        iyz="-1.87223804057881E-09"
+        izz="0.00750126301373297" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Rear_Right_Wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://sparky_description/meshes/Rear_Right_Wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Rear_Right_Wheel_Joint"
+    type="continuous">
+    <origin
+      xyz="-0.39807 -0.48455 0.016315"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Rear_Right_Wheel" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+</robot>
