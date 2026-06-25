@@ -1,14 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sparky">
 
-  <!-- Pristine SolidWorks export. Do NOT edit it directly; it is regenerated on
-       every re-export. All simulation-only additions live in this overlay. -->
+  <!-- Sparky URDF -->
   <xacro:include filename="$(find sparky_description)/urdf/sparky_description.urdf"/>
 
-  <!-- Sim-only: anchor the robot at the world origin so it stays fixed for
-       visualization instead of sliding around as a free rigid body.
-       Remove <static> (and add controllers + wheel friction) once you want it
-       to actually drive in simulation. -->
+  <!-- TODO: Configure Gazebo Simulation -->
   <gazebo>
     <static>true</static>
   </gazebo>

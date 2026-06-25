@@ -13,28 +13,14 @@ src/ros_odrive  (git submodule)
   See: src/ros_odrive/LICENSE
 
 --------------------------------------------------------------------------------
-src/osr_gazebo
-  Derived from:
-    - NASA JPL Open Source Rover
-      https://github.com/nasa-jpl/osr-rover-code
-      Copyright 2018 California Institute of Technology.
-      Government Sponsorship Acknowledged.
-    - dongjineee/rover_gazebo
-      https://github.com/dongjineee/rover_gazebo
-  License:  Apache License, Version 2.0
-  See: src/osr_gazebo/LICENSE
-
-  Modifications by UWRobotics for the Sparky CIRC 2026 rover are tracked in
-  this repository's git history.
---------------------------------------------------------------------------------
-src/dualshock4_teleop  (akros2_teleop)
+src/dualshock4_teleop  (akros2_teleop, git submodule)
   Upstream: https://github.com/adityakamath/akros2_teleop
   License:  Apache License, Version 2.0
   Copyright (c) 2023 Aditya Kamath
   See: src/dualshock4_teleop/LICENSE
 
 --------------------------------------------------------------------------------
-src/akros2_msgs
+src/akros2_msgs  (git submodule)
   Upstream: https://github.com/adityakamath/akros2_msgs
   License:  Apache License, Version 2.0
   Copyright (c) 2023 Aditya Kamath

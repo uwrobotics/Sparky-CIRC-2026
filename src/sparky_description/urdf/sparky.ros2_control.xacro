@@ -3,19 +3,6 @@
 
   <!--
     ros2_control hardware description for the Sparky CIRC 2026 rover.
-
-    Each of the 6 drive wheels exposes a velocity command interface plus
-    position/velocity state interfaces, which is exactly what
-    diff_drive_controller needs to turn /cmd_vel into per-axis velocities.
-
-    Backends (selectable so the same model serves visualization and hardware):
-      use_mock_hardware=true (default)
-        mock_components/GenericSystem mirrors velocity commands to state and
-        integrates position. No physics, no hardware: perfect for RViz.
-      use_mock_hardware=false
-        odrive_ros2_control_plugin/ODriveHardwareInterface over SocketCAN, one
-        ODrive axis per wheel (node_id below). Wire this up later for the real
-        rover; CAN node IDs are placeholders, match them to the drivetrain.
   -->
   <xacro:macro name="sparky_ros2_control"
                params="name use_mock_hardware:=true can_interface:=can0">

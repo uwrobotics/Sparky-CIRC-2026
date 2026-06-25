@@ -2,10 +2,10 @@
 <package format="3">
   <name>sparky_description</name>
   <version>1.0.0</version>
-  <description>URDF Description package for UWRobotics Sparky 2026 (exported from SolidWorks)</description>
+  <description>HW Description package for UWRobotics Sparky 2026</description>
   <author>UWRobotics Team</author>
   <maintainer email="uwaterloorobotics@gmail.com">UWRobotics Team</maintainer>
-  <license>BSD</license>
+  <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
