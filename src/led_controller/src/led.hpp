@@ -9,8 +9,11 @@
 
 enum class LEDColours {
     RED,
+    ORANGE,
     YELLOW,
     GREEN,
+    BLUE,
+    PURPLE,
     WHITE
 };
 
