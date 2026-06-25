@@ -24,11 +24,20 @@ void LED::set_colour(LEDColours colour_name) {
         case LEDColours::RED:
             set_colour(255, 0, 0);
             break;
+        case LEDColours::ORANGE:
+            set_colour(255, 128, 0);
+            break;
         case LEDColours::YELLOW:
             set_colour(255, 255, 0);
             break;
         case LEDColours::GREEN:
             set_colour(0, 255, 0);
+            break;
+        case LEDColours::BLUE:
+            set_colour(0, 0, 255);
+            break;
+        case LEDColours::PURPLE:
+            set_colour(128, 0, 255);
             break;
         case LEDColours::WHITE:
             set_colour(255, 255, 255);
