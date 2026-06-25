@@ -7,6 +7,7 @@ services:
         USER_ID: ${USER_ID:-1000}
         GROUP_ID: ${GROUP_ID:-1000}
         USERNAME: ${USERNAME:-devuser}
+        INPUT_GID: ${INPUT_GID:-994}
         ROS_BASE_IMAGE: ${ROS_BASE_IMAGE:-osrf/ros:humble-desktop}
     container_name: ros2_humble_demo
     volumes:
@@ -16,9 +17,18 @@ services:
       - ./log:/ros2_ws/log:rw
       - ./scripts/build.sh:/ros2_ws/build.sh:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Live access to input devices (game controllers) — lets a controller
+      # plugged in after container start show up without recreating.
+      - /dev/input:/dev/input
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/1000}
+    # Add the host 'input' group so the container user can read /dev/input/event*
+    # (ROS2 joy_node reads evdev, not js0). INPUT_GID is detected by setup.sh;
+    # defaults to 994 (the usual Ubuntu 'input' GID).
+    group_add:
+      - "${INPUT_GID:-994}"
     network_mode: host
     stdin_open: true
     tty: true
