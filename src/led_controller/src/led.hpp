@@ -22,9 +22,9 @@ class LED
 {
 public:
   LED(std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_, rclcpp::Logger logger);
-  void set_colour(float r, float g, float b, float a = 0);
-  void set_colour(LEDColours colour_name);
-  void set_random_colour();
+  bool set_colour(float r, float g, float b, float a = 0);
+  bool set_colour(LEDColours colour_name);
+  bool set_random_colour();
 
 private:
   std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_;
