@@ -1,6 +1,7 @@
 #include "led.hpp"
 
-LED::LED(std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_, rclcpp::Logger logger) : pub_(pub_), logger(logger) {};
+LED::LED(std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_, rclcpp::Logger logger)
+: pub_(pub_), logger(logger) {};
 
 void LED::set_colour(float r, float g, float b, float a) {
     auto colour = std::make_unique<std_msgs::msg::ColorRGBA>();
