@@ -8,7 +8,7 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
-# Python helper nodes
+# RViZ Velocity Marker Tool 
 install(PROGRAMS
   scripts/velocity_marker.py
   DESTINATION lib/${PROJECT_NAME}
