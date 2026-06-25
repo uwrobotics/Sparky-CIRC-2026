@@ -49,7 +49,10 @@ bool LED::set_colour(LEDColours colour_name)
       set_colour(255, 255, 255);
       break;
     default:
-      RCLCPP_INFO(logger, "The following LEDColours enum did not map to an existing colour value: %s");
+      RCLCPP_INFO(
+        logger,
+        "LEDColours enum argument did not map to a colour value"
+      );
       return false;
   }
 

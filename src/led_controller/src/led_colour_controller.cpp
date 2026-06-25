@@ -75,8 +75,7 @@ public:
   }
 
 private:
-  // Using regular publisher to allow colour changing in inactive state
-  std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_;
+  std::shared_ptr<rclcpp::Publisher<std_msgs::msg::ColorRGBA>> pub_; // Using regular publisher to allow colour changing in inactive state
   std::shared_ptr<rclcpp::TimerBase> timer_;
   std::shared_ptr<LED> led_;
 };
