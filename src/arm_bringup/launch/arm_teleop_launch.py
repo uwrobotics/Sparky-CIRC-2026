@@ -1,7 +1,15 @@
+import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+
 
 def generate_launch_description():
+    arm_teleop_pkg = get_package_share_directory('arm_teleop')
+
+    ps4_mapping     = os.path.join(arm_teleop_pkg, 'config', 'ps4_mapping.yaml')
+    ps4_vel_config  = os.path.join(arm_teleop_pkg, 'config', 'ps4_velocity_config.yaml')
+
     return LaunchDescription([
         Node(
             package='joy_linux',
@@ -16,14 +24,8 @@ def generate_launch_description():
         Node(
             package='arm_teleop',
             executable='arm_teleop_node',
-            name='arm_teleop',
+            name='arm_teleop_node',
             output='screen',
-            parameters=[{
-                'max_velocity_slow': 0.5,
-                'max_velocity_fast': 1.5,
-                'deadband': 0.08,
-                'dpad_velocity': 0.3,
-                'gripper_velocity': 0.5,
-            }]
+            parameters=[ps4_mapping, ps4_vel_config],
         ),
     ])

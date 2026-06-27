@@ -4,3 +4,6 @@
 [submodule "utils/ros2-migration-tools"]
 	path = utils/ros2-migration-tools
 	url = https://github.com/awslabs/ros2-migration-tools.git
+[submodule "src/arm_teleop"]
+	path = src/arm_teleop
+	url = git@github.com:allenabraham106/arm_teleop.git
