@@ -7,10 +7,11 @@ related modules.
 ## TODO
 
 - [ ] VCAN ODrive Support
-- [ ] Ros_Odrive rover integration
+- [x] Ros_Odrive rover integration
 - [ ] VN-300 Driver
 - [ ] IMU Drift Compensation
 - [ ] Camera Ethernet
+- [ ] Back-up RF
 
 ## Project Structure
 ```
