@@ -3,7 +3,7 @@ joy_teleop:
     axis_linear:
       x: 1 # LJoy up-down
     scale_linear:
-      x: 1.0
+      x: 10.0
     scale_linear_turbo:
       x: 1.0
     axis_angular:
