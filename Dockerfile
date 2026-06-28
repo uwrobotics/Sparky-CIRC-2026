@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     nano \
     sudo \
+    iproute2 \
     python3-pip \
     python3-ament-cmake-test \
     ros-humble-ament-cmake-gtest \
@@ -73,6 +74,7 @@ RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
 # this guarantees interactive shells share the same DDS domain on every target
 # (amd64 / arm64), while still honoring an overriding ROS_DOMAIN_ID from compose.
 RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashrc && \
+    echo '[ -f /tmp/sparky_fastdds_profiles.xml ] && export FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/sparky_fastdds_profiles.xml' >> /home/$USERNAME/.bashrc && \
     echo 'source /opt/ros/humble/setup.bash' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /ros2_ws/install/setup.bash ] && source /ros2_ws/install/setup.bash' >> /home/$USERNAME/.bashrc
 
