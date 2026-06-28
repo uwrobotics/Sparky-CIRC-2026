@@ -37,12 +37,15 @@ RUN apt-get update && apt-get install -y \
     ros-humble-trajectory-msgs \
     ros-humble-velocity-controllers \
     ros-humble-joint-trajectory-controller \
-    ros-humble-gazebo-ros-pkgs \
-    ros-humble-gazebo-ros2-control-demos \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
     cppcheck \
     uncrustify \
+    && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \
+        apt-get install -y \
+            ros-humble-gazebo-ros-pkgs \
+            ros-humble-gazebo-ros2-control-demos; \
+    fi \
     && rm -rf /var/lib/apt/lists/*
 
 # Create user with same UID/GID as host user (dynamic)
