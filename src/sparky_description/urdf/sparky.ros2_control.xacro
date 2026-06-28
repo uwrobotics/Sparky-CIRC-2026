@@ -35,14 +35,14 @@
       </xacro:macro>
 
       <!-- Left side -->
-      <xacro:drive_joint name="Front_Left_Wheel_Joint"  node_id="1"/>
-      <xacro:drive_joint name="Center_Left_Wheel_Joint" node_id="2"/>
-      <xacro:drive_joint name="Rear_Left_Wheel_Joint"   node_id="3"/>
+      <xacro:drive_joint name="Front_Left_Wheel_Joint"  node_id="4"/>
+      <xacro:drive_joint name="Center_Left_Wheel_Joint" node_id="5"/>
+      <xacro:drive_joint name="Rear_Left_Wheel_Joint"   node_id="6"/>
 
       <!-- Right side -->
-      <xacro:drive_joint name="Front_Right_Wheel_Joint"  node_id="4"/>
-      <xacro:drive_joint name="Center_Right_Wheel_Joint" node_id="5"/>
-      <xacro:drive_joint name="Rear_Right_Wheel_Joint"   node_id="6"/>
+      <xacro:drive_joint name="Front_Right_Wheel_Joint"  node_id="1"/>
+      <xacro:drive_joint name="Center_Right_Wheel_Joint" node_id="2"/>
+      <xacro:drive_joint name="Rear_Right_Wheel_Joint"   node_id="3"/>
 
     </ros2_control>
 
