@@ -19,4 +19,11 @@ def generate_launch_description():
             output='screen',
             parameters=[arm_mapping, arm_vel_config],
         ),
+
+        Node(
+            package='arm_teleop',
+            executable='arm_joint_sim_node',
+            name='arm_joint_sim_node',
+            output='screen',
+        ),
     ])
