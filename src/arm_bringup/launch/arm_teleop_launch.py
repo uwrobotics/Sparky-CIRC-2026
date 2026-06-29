@@ -16,7 +16,7 @@ def generate_launch_description():
             package='arm_teleop',
             executable='arm_teleop_node',
             name='arm_teleop_node',
-            output='screen',
+            output='screen',s
             parameters=[arm_mapping, arm_vel_config],
         ),
 
