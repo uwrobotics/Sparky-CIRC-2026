@@ -10,3 +10,6 @@
 [submodule "src/akros2_msgs"]
 	path = src/akros2_msgs
 	url = https://github.com/adityakamath/akros2_msgs.git
+[submodule "src/sensor_vn300"]
+	path = src/sensor_vn300
+	url = git@github.com:uwrobotics/VectorNav-ROS2-Mirror.git

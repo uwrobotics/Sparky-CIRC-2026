@@ -40,6 +40,9 @@ services:
     # defaults to 994 (the usual Ubuntu 'input' GID).
     group_add:
       - "${INPUT_GID:-994}"
+      # Host 'dialout' group (GID 20) owns /dev/ttyUSB*; without it the non-root
+      # container user gets "Permission denied" opening the VN-300 serial port.
+      - "${DIALOUT_GID:-20}"
     network_mode: host
     stdin_open: true
     tty: true
