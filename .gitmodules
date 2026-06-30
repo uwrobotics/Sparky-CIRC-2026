@@ -10,3 +10,6 @@
 [submodule "src/akros2_msgs"]
 	path = src/akros2_msgs
 	url = https://github.com/adityakamath/akros2_msgs.git
+[submodule "src/ros_network_viz"]
+	path = src/ros_network_viz
+	url = https://github.com/ros2/ros_network_viz.git
