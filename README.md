@@ -12,6 +12,8 @@ related modules.
 - [ ] IMU Drift Compensation
 - [ ] Camera Ethernet
 - [ ] Back-up RF
+- [ ] Unit test
+- [ ] Application test
 
 ## Project Structure
 ```
