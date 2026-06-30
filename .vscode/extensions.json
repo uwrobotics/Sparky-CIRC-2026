@@ -1,7 +1,0 @@
-{
-    // Extensions VS Code will prompt new contributors to install when they
-    // open this workspace. Keeps the URDF preview working out of the box.
-    "recommendations": [
-        "morningfrog.urdf-visualizer"
-    ]
-}
