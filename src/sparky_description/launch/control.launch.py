@@ -27,6 +27,7 @@ from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -57,7 +58,12 @@ def generate_launch_description():
         'use_mock_hardware:=', use_mock_hardware, ' ',
         'can_interface:=', can_interface,
     ])
-    robot_description = {'robot_description': robot_description_content}
+    # Force the xacro output to be treated as a plain string. Without value_type=str
+    # launch tries to YAML-parse the URDF and fails with "Unable to parse the value
+    # of parameter robot_description as yaml".
+    robot_description = {
+        'robot_description': ParameterValue(robot_description_content, value_type=str)
+    }
 
     controllers_yaml = os.path.join(pkg, 'config', 'sparky_controllers.yaml')
 
