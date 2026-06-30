@@ -40,6 +40,9 @@ RUN apt-get update && apt-get install -y \
     ros-humble-joint-trajectory-controller \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
+    python3-pyqt5 \
+    python3-networkx \
+    python3-scipy \
     cppcheck \
     uncrustify \
     && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \

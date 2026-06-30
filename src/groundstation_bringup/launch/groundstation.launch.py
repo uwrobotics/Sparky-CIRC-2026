@@ -23,6 +23,9 @@
 #
 #   # Teleop only, no RViz
 #   ros2 launch groundstation_bringup groundstation.launch.py rviz:=false
+#
+#   # Also open the ROS network visualizer (live per-topic Hz/bandwidth/QoS)
+#   ros2 launch groundstation_bringup groundstation.launch.py network_viz:=true
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
@@ -36,6 +39,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     joy_config = LaunchConfiguration('joy_config')
     use_rviz = LaunchConfiguration('rviz')
+    use_network_viz = LaunchConfiguration('network_viz')
 
     declared_args = [
         DeclareLaunchArgument(
@@ -44,6 +48,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'rviz', default_value='true',
             description='Open RViz to visualize the rover.'),
+        DeclareLaunchArgument(
+            'network_viz', default_value='false',
+            description='Open ros_network_viz to monitor link quality '
+                        '(live per-topic rate, bandwidth and QoS over DDS).'),
     ]
 
     teleop_launch = IncludeLaunchDescription(
@@ -66,7 +74,20 @@ def generate_launch_description():
         output='log',
     )
 
+    # ros_network_viz: GUI that walks the ROS graph and shows, per topic, the
+    # live publish rate (Hz), bandwidth and QoS settings -- a quick read on how
+    # healthy the wireless link to the rover is. Off by default; enable with
+    # network_viz:=true. Vendored as a submodule under src/ros_network_viz.
+    network_viz_node = Node(
+        package='ros_network_viz',
+        executable='ros_network_viz',
+        name='ros_network_viz',
+        condition=IfCondition(use_network_viz),
+        output='log',
+    )
+
     return LaunchDescription(declared_args + [
         teleop_launch,
         rviz_node,
+        network_viz_node,
     ])

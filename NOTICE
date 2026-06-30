@@ -25,4 +25,11 @@ src/akros2_msgs  (git submodule)
   License:  Apache License, Version 2.0
   Copyright (c) 2023 Aditya Kamath
   See: src/akros2_msgs/LICENSE
+
+--------------------------------------------------------------------------------
+src/ros_network_viz  (git submodule)
+  Upstream: https://github.com/ros2/ros_network_viz
+  License:  Apache License, Version 2.0
+  Copyright (c) Open Robotics
+  See: src/ros_network_viz/LICENSE
 --------------------------------------------------------------------------------
