@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     nano \
     sudo \
+    iproute2 \
     python3-pip \
     python3-ament-cmake-test \
     ros-humble-ament-cmake-gtest \
@@ -37,12 +38,15 @@ RUN apt-get update && apt-get install -y \
     ros-humble-trajectory-msgs \
     ros-humble-velocity-controllers \
     ros-humble-joint-trajectory-controller \
-    ros-humble-gazebo-ros-pkgs \
-    ros-humble-gazebo-ros2-control-demos \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
     cppcheck \
     uncrustify \
+    && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \
+        apt-get install -y \
+            ros-humble-gazebo-ros-pkgs \
+            ros-humble-gazebo-ros2-control-demos; \
+    fi \
     && rm -rf /var/lib/apt/lists/*
 
 # Create user with same UID/GID as host user (dynamic)
@@ -66,7 +70,12 @@ RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
 # Auto-source ROS env in interactive shells. `docker compose exec` does NOT
 # run the entrypoint, so without this, ament_* lint scripts fail with
 # "PackageNotFoundError: No package metadata was found for ament-*".
-RUN echo 'source /opt/ros/humble/setup.bash' >> /home/$USERNAME/.bashrc && \
+# The ROS_DOMAIN_ID default also runs here because `exec` skips the entrypoint:
+# this guarantees interactive shells share the same DDS domain on every target
+# (amd64 / arm64), while still honoring an overriding ROS_DOMAIN_ID from compose.
+RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashrc && \
+    echo '[ -f /tmp/sparky_fastdds_profiles.xml ] && export FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/sparky_fastdds_profiles.xml' >> /home/$USERNAME/.bashrc && \
+    echo 'source /opt/ros/humble/setup.bash' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /ros2_ws/install/setup.bash ] && source /ros2_ws/install/setup.bash' >> /home/$USERNAME/.bashrc
 
 # Create workspace
