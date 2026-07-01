@@ -25,4 +25,16 @@ src/akros2_msgs  (git submodule)
   License:  Apache License, Version 2.0
   Copyright (c) 2023 Aditya Kamath
   See: src/akros2_msgs/LICENSE
+
+--------------------------------------------------------------------------------
+src/sensor_vn300  (vectornav, git submodule)
+  Upstream: https://github.com/dawonn/vectornav
+  Fork:     https://github.com/uwrobotics/VectorNav-ROS2-Mirror
+  License:  MIT
+  Copyright (c) 2020 Dereck Wonnacott
+  See: src/sensor_vn300/LICENCE
+
+  Bundles the VectorNav programming library (vnproglib):
+    src/sensor_vn300/vectornav/vnproglib-1.2.0.0
+    Copyright (c) VectorNav Technologies, LLC
 --------------------------------------------------------------------------------

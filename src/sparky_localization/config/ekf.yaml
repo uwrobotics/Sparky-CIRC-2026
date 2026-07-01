@@ -1,0 +1,129 @@
+# Sparky CIRC 2026 -- robot_localization configuration (dual-EKF + navsat)
+#
+# Frames follow REP-105:  map -> odom -> base_link
+#   ekf_local  owns  odom -> base_link   (continuous, GPS-free)
+#   ekf_global owns  map  -> odom        (drift-corrected, needs GPS)
+#
+# Sensor inputs:
+#   /diff_drive_controller/odom  (nav_msgs/Odometry)  wheel odometry
+#   /vectornav/imu               (sensor_msgs/Imu)    VN-300 orientation + rates
+#   /odometry/gps                (nav_msgs/Odometry)  from navsat_transform_node
+#
+# The _config matrices are 15 booleans in this order:
+#   [ x,     y,     z,
+#     roll,  pitch, yaw,
+#     vx,    vy,    vz,
+#     vroll, vpitch,vyaw,
+#     ax,    ay,    az ]
+#
+# two_d_mode: true  -- Sparky drives on (locally) flat ground, so we zero out
+# z/roll/pitch and their rates. This is the single biggest stability win for a
+# ground rover and is strongly recommended.
+
+# ---------------------------------------------------------------------------
+# LOCAL EKF  --  odom -> base_link   (no GPS; always runs)
+# ---------------------------------------------------------------------------
+ekf_local:
+  ros__parameters:
+    frequency: 30.0
+    sensor_timeout: 0.2
+    two_d_mode: true
+    publish_tf: true
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom          # <-- local EKF estimates the odom frame
+
+    # Wheel odometry: trust body-frame forward velocity + yaw rate only.
+    odom0: /diff_drive_controller/odom
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  false, false,
+                   false, false, true,
+                   false, false, false]
+    odom0_differential: false
+    odom0_queue_size: 10
+
+    # VN-300 IMU: absolute yaw + yaw rate (this is what compensates wheel-odom
+    # heading drift). Keep yaw absolute -- the VN-300 gives a true heading.
+    imu0: /vectornav/imu
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  false, false, false,
+                  false, false, true,
+                  false, false, false]
+    imu0_differential: false
+    imu0_relative: true
+    imu0_remove_gravitational_acceleration: true
+    imu0_queue_size: 10
+
+# ---------------------------------------------------------------------------
+# GLOBAL EKF  --  map -> odom   (adds GPS; only when use_gps:=true)
+# ---------------------------------------------------------------------------
+ekf_global:
+  ros__parameters:
+    frequency: 30.0
+    sensor_timeout: 0.2
+    two_d_mode: true
+    publish_tf: true
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map           # <-- global EKF estimates the map frame
+
+    odom0: /diff_drive_controller/odom
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  false, false,
+                   false, false, true,
+                   false, false, false]
+    odom0_differential: false
+    odom0_queue_size: 10
+
+    imu0: /vectornav/imu
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  false, false, false,
+                  false, false, true,
+                  false, false, false]
+    imu0_differential: false
+    imu0_relative: true
+    imu0_remove_gravitational_acceleration: true
+    imu0_queue_size: 10
+
+    # GPS position (map-frame x,y) from navsat_transform_node. Absolute, so it
+    # corrects long-run drift in the map frame.
+    odom1: /odometry/gps
+    odom1_config: [true,  true,  false,
+                   false, false, false,
+                   false, false, false,
+                   false, false, false,
+                   false, false, false]
+    odom1_differential: false
+    odom1_queue_size: 10
+
+# ---------------------------------------------------------------------------
+# navsat_transform_node  --  NavSatFix (lat/lon) -> map-frame odometry
+# ---------------------------------------------------------------------------
+navsat_transform:
+  ros__parameters:
+    frequency: 30.0
+    delay: 3.0
+    # Set these for your competition location (Toronto/CIRC area shown).
+    # magnetic_declination: https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
+    # If the VN-300 already reports TRUE heading, leave declination at 0.
+    magnetic_declination_radians: 0.0
+    # yaw_offset compensates the IMU's zero-heading convention. For a REP-103
+    # ENU IMU that reads 0 facing East, this is 0. VERIFY with the calibration
+    # procedure (see the package README) before trusting GPS waypoints.
+    yaw_offset: 0.0
+
+    zero_altitude: true
+    broadcast_cartesian_transform: false
+    publish_filtered_gps: true
+    # Use the IMU heading (VN-300 has a true dual-antenna heading) rather than
+    # deriving yaw from motion. More robust at low speed / standstill.
+    use_odometry_yaw: false
+    wait_for_datum: false

@@ -40,6 +40,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-joint-trajectory-controller \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
+    ros-humble-robot-localization \
     cppcheck \
     uncrustify \
     && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \

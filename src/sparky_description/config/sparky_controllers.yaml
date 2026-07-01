@@ -54,7 +54,14 @@ diff_drive_controller:
 
     # Closed loop: integrate the wheel state fed back by the (mock) hardware.
     open_loop: false
-    enable_odom_tf: true
+    # odom->base_link TF is owned by robot_localization's ekf_local
+    # (sparky_localization), which fuses this wheel odom with the VN-300 IMU.
+    # Two nodes publishing the same transform is the #1 robot_localization bug,
+    # so diff_drive only publishes the /diff_drive_controller/odom TOPIC here.
+    # NOTE: if you run the drivetrain WITHOUT sparky_localization, RViz will have
+    # no odom->base_link -- either launch localization (use_gps:=false is fine)
+    # or temporarily set this back to true.
+    enable_odom_tf: false
 
     cmd_vel_timeout: 0.5
     # Subscribe to a plain Twist (geometry_msgs/Twist) instead of TwistStamped,

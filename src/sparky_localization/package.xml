@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>sparky_localization</name>
+  <version>1.0.0</version>
+  <description>
+    State estimation for the UWRobotics Sparky rover. Runs the standard
+    robot_localization dual-EKF + navsat_transform stack:
+
+      - ekf_local  : wheel odom + VN-300 IMU -> continuous odom->base_link
+                     (heading-drift compensated; NO GPS dependency)
+      - navsat_transform + ekf_global : adds VN-300 GNSS -> drift-corrected
+                     map->odom for global navigation (Nav2 GPS waypoints)
+
+    The GPS half is opt-in (use_gps launch arg); with use_gps:=false only the
+    local EKF runs, giving a fully functional estimate without any GPS.
+  </description>
+  <author>UWRobotics Team</author>
+  <maintainer email="uwaterloorobotics@gmail.com">UWRobotics Team</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
