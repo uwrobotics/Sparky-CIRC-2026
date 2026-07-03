@@ -20,7 +20,7 @@ Then, run the LED Colour Controller:
 ros2 run led_controller led_colour_controller
 ```
 ### Node Commands
-To change the state of the node, run the commands below:
+To change the state of the node, open a new terminal and run the commands below:
 ```bash
 ros2 lifecycle set led_colour_controller_node configure
 ros2 lifecycle set led_colour_controller_node activate
