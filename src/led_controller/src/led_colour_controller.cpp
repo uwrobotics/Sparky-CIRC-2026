@@ -60,6 +60,7 @@ public:
 
     timer_.reset();
     pub_.reset();
+    led_.reset();
 
     return LifecycleCallback::SUCCESS;
   }
@@ -70,6 +71,7 @@ public:
 
     timer_.reset();
     pub_.reset();
+    led_.reset();
 
     return LifecycleCallback::SUCCESS;
   }
