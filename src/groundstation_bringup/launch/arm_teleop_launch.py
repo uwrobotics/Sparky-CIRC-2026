@@ -11,7 +11,7 @@ def generate_launch_description():
     arm_vel_config = os.path.join(arm_teleop_pkg, 'config', 'ps4_velocity_config.yaml')
 
     return LaunchDescription([
-        # No joy node here, groundstation_bringup already publishes /joy
+           # No joy node here this launch file expects joy_launch.py (this package) to already be running and publishing /joy.
         Node(
             package='arm_teleop',
             executable='arm_teleop_node',
