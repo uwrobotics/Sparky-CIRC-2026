@@ -15,7 +15,11 @@
 #
 # Derived from adityakamath/akros2_teleop (launch/joy_launch.py).
 # Modifications by UWRobotics: config sourced from groundstation_bringup,
-# default joy_config is 'ps4'.
+# default joy_config is 'ps4'. Extended to run two controllers at once —
+# PS4 for the drivetrain, Xbox for the arm — bound by device_name (not
+# device_id) since that's what actually lets two different physical
+# controllers be told apart reliably. See arm_teleop_launch.py for the
+# node that consumes /joy_arm.
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
@@ -34,20 +38,32 @@ def generate_launch_description():
         DeclareLaunchArgument(
             name='joy_config',
             default_value='ps4',
-            description='Select Controller: ps4 (PS4/DS4), stadia (Google Stadia), sn30pro (8BitDo SN30 Pro), steamdeck (Valve Steam Deck), none (Disabled)'),
+            description='Select drivetrain controller: ps4 (PS4/DS4), stadia (Google Stadia), sn30pro (8BitDo SN30 Pro), steamdeck (Valve Steam Deck), none (Disabled)'),
 
+        DeclareLaunchArgument(
+            name='arm_joy_config',
+            default_value='xbox',
+            description='Select arm controller: xbox (Xbox One pad), none (Disabled)'),
+
+        # Drivetrain controller (PS4 by default) -> /joy_drive -> teleop_twist_joy -> /joy_vel
         GroupAction(
             condition=LaunchConfigurationNotEquals('joy_config', 'none'),
             actions = [
                 Node(
                     package='joy',
                     executable='joy_node',
-                    name='joy_node',
-                    parameters=[{'device_id': 0,
+                    name='joy_node_drive',
+                    parameters=[{
+                        # TODO: verify this exact string with
+                        # `ros2 run joy joy_enumerate_devices` while the PS4
+                        # pad is connected — unlike the Xbox device_name
+                        # below, this one hasn't been empirically confirmed.
+                        'device_name': 'Wireless Controller',
                         'deadzone': 0.1,
                         'autorepeat_rate': 20.0,
                         'coalesce_interval_ms': 10,
                     }],
+                    remappings=[('joy', 'joy_drive')],
                     arguments=["--ros-args", "--log-level", "ERROR"]),
 
                 Node(
@@ -55,6 +71,26 @@ def generate_launch_description():
                     executable='teleop_node',
                     name='joy_teleop',
                     parameters=[joy_twist_config_dynamic_path],
-                    remappings=[('/cmd_vel', '/joy_vel')]),
+                    remappings=[('joy', 'joy_drive'), ('/cmd_vel', '/joy_vel')]),
+            ]),
+
+        # Arm controller (Xbox) -> /joy_arm -> arm_teleop_node
+        # (arm_teleop_node itself is launched separately, in arm_teleop_launch.py)
+        GroupAction(
+            condition=LaunchConfigurationNotEquals('arm_joy_config', 'none'),
+            actions = [
+                Node(
+                    package='joy',
+                    executable='joy_node',
+                    name='joy_node_arm',
+                    parameters=[{
+                        # Confirmed via joy_enumerate_devices tonight.
+                        'device_name': 'Generic X-Box pad',
+                        'deadzone': 0.1,
+                        'autorepeat_rate': 20.0,
+                        'coalesce_interval_ms': 10,
+                    }],
+                    remappings=[('joy', 'joy_arm')],
+                    arguments=["--ros-args", "--log-level", "ERROR"]),
             ]),
     ])
