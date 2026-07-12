@@ -25,4 +25,23 @@ src/akros2_msgs  (git submodule)
   License:  Apache License, Version 2.0
   Copyright (c) 2023 Aditya Kamath
   See: src/akros2_msgs/LICENSE
+
+--------------------------------------------------------------------------------
+src/siyi_ros2  (git submodule)
+  Upstream: https://github.com/mzahana/siyi_ros2
+  License:  MIT (declared in siyi_ros2/package.xml; no LICENSE file in upstream)
+  Copyright (c) Mohamed Abdelkader (mzahana)
+
+--------------------------------------------------------------------------------
+src/siyi_msgs  (git submodule)
+  Upstream: https://github.com/mzahana/siyi_msgs
+  License:  MIT (declared in package.xml; no LICENSE file in upstream)
+  Copyright (c) Mohamed Abdelkader (mzahana)
+
+--------------------------------------------------------------------------------
+Python dependency (installed via pip in Dockerfile, not vendored):
+siyi_sdk
+  Upstream: https://github.com/mzahana/siyi_sdk (branch siyi-sdk-v2)
+  License:  MIT (per upstream repository)
+  Copyright (c) Mohamed Abdelkader (mzahana)
 --------------------------------------------------------------------------------

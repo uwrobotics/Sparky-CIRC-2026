@@ -40,6 +40,9 @@ RUN apt-get update && apt-get install -y \
     ros-humble-joint-trajectory-controller \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
+    ros-humble-camera-info-manager \
+    ros-humble-cv-bridge \
+    python3-opencv \
     cppcheck \
     uncrustify \
     && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \
@@ -48,6 +51,27 @@ RUN apt-get update && apt-get install -y \
             ros-humble-gazebo-ros2-control-demos; \
     fi \
     && rm -rf /var/lib/apt/lists/*
+
+# GStreamer stack for SIYI camera video streaming (src/siyi_ros2). The SIYI SDK
+# decodes the gimbal's H.264/H.265 RTSP stream via GStreamer + its Python (GObject)
+# bindings; without these the gimbal control node still works but the camera node
+# cannot stream. Kept as a separate layer so it is easy to drop if video is unused.
+RUN apt-get update && apt-get install -y \
+    libgstreamer1.0-0 \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav \
+    python3-gi \
+    gir1.2-gstreamer-1.0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# SIYI Python SDK (src/siyi_ros2 dependency). It is NOT on PyPI, so it is installed
+# from git. The upstream README uses a venv only because Ubuntu 24.04 / ROS Jazzy
+# enforces PEP 668; our base image is Ubuntu 22.04 (ROS Humble) which allows a
+# system-wide pip install, so no virtualenv is needed. Pinned to the siyi-sdk-v2
+# branch that src/siyi_ros2 targets.
+RUN pip install --no-cache-dir "siyi_sdk @ git+https://github.com/mzahana/siyi_sdk.git@siyi-sdk-v2"
 
 # Create user with same UID/GID as host user (dynamic)
 ARG USER_ID=1000
@@ -74,6 +98,7 @@ RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
 # this guarantees interactive shells share the same DDS domain on every target
 # (amd64 / arm64), while still honoring an overriding ROS_DOMAIN_ID from compose.
 RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashrc && \
+    echo '{ [ -n "$XDG_RUNTIME_DIR" ] && mkdir -p "$XDG_RUNTIME_DIR" 2>/dev/null; } || export XDG_RUNTIME_DIR="/tmp/runtime-$(id -u)"; mkdir -p "$XDG_RUNTIME_DIR" && chmod 700 "$XDG_RUNTIME_DIR"' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /tmp/sparky_fastdds_profiles.xml ] && export FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/sparky_fastdds_profiles.xml' >> /home/$USERNAME/.bashrc && \
     echo 'source /opt/ros/humble/setup.bash' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /ros2_ws/install/setup.bash ] && source /ros2_ws/install/setup.bash' >> /home/$USERNAME/.bashrc

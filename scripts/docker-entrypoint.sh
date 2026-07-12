@@ -8,6 +8,17 @@ set -e
 # ROS_DOMAIN_ID in the environment before launch.
 export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"
 
+# Ensure a valid, writable XDG_RUNTIME_DIR. GStreamer/GLib/dconf (used by the SIYI
+# camera node's video pipeline) need it; the host value passed in by compose
+# (e.g. /run/user/1000) usually does not exist inside the container, which spams
+# "dconf will not work" errors and can abort media init. Fall back to a
+# user-owned tmp dir if the inherited path isn't creatable.
+if [ -z "${XDG_RUNTIME_DIR:-}" ] || ! mkdir -p "$XDG_RUNTIME_DIR" 2>/dev/null; then
+    export XDG_RUNTIME_DIR="/tmp/runtime-$(id -u)"
+    mkdir -p "$XDG_RUNTIME_DIR"
+fi
+chmod 700 "$XDG_RUNTIME_DIR" 2>/dev/null || true
+
 # Pin Fast DDS to the robot network interface so DDS discovery multicast leaves
 # the correct NIC. On a multi-homed host (e.g. groundstation with campus WiFi +
 # robot/AP link) discovery would otherwise egress the default-route (WiFi)
