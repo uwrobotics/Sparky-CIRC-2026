@@ -94,3 +94,6 @@ This repository bundles third-party components under their own licenses (see [NO
 - `src/ros_odrive` (submodule) — MIT, © ODrive Robotics (see `src/ros_odrive/LICENSE`).
 - `src/dualshock4_teleop` (akros2_teleop, submodule) — Apache-2.0, © 2023 Aditya Kamath (see `src/dualshock4_teleop/LICENSE`).
 - `src/akros2_msgs` (submodule) — Apache-2.0, © 2023 Aditya Kamath (see `src/akros2_msgs/LICENSE`).
+- `src/siyi_ros2` (submodule) — MIT, © Mohamed Abdelkader (declared in `package.xml`; no upstream LICENSE file).
+- `src/siyi_msgs` (submodule) — MIT, © Mohamed Abdelkader (declared in `package.xml`; no upstream LICENSE file).
+- `siyi_sdk` (pip dependency, installed in the Dockerfile) — MIT, © Mohamed Abdelkader (https://github.com/mzahana/siyi_sdk).
