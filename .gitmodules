@@ -13,3 +13,6 @@
 [submodule "src/akros2_msgs"]
 	path = src/akros2_msgs
 	url = https://github.com/adityakamath/akros2_msgs.git
+[submodule "src/arm_teleop_messages"]
+	path = src/arm_teleop_messages
+	url = https://github.com/allenabraham106/arm_teleop_messages.git
