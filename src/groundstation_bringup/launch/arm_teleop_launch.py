@@ -25,7 +25,6 @@ def generate_launch_description():
             executable='arm_safety_node',
             name='arm_safety_node',
             output='screen',
-            parameters=[{'sim_mode': True}]
         )
 
     ])
