@@ -6,6 +6,7 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && \
     apt-get install -y curl gnupg2 lsb-release && \
     rm -f /etc/apt/sources.list.d/ros*.list && \
     rm -f /usr/share/keyrings/ros2-latest-archive-keyring.gpg && \
+    rm -f /etc/apt/sources.list.d/ros2.sources && \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list && \
     apt-get update
