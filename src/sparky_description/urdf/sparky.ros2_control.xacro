@@ -2,35 +2,28 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!--
-    ros2_control hardware description for the Sparky CIRC 2026 rover.
+    UWRobotics Sparky ros2_control package 
   -->
-  <xacro:macro name="sparky_ros2_control"
-               params="name use_mock_hardware:=true can_interface:=can0">
+  <xacro:macro name="sparky_ros2_control" params="name use_mock_hardware can_interface">
 
     <ros2_control name="${name}" type="system">
 
-      <xacro:if value="${use_mock_hardware}">
-        <hardware>
+      <hardware>
+        <xacro:if value="${use_mock_hardware}">
           <plugin>mock_components/GenericSystem</plugin>
           <param name="calculate_dynamics">true</param>
-        </hardware>
-      </xacro:if>
-      <xacro:unless value="${use_mock_hardware}">
-        <hardware>
+        </xacro:if>
+        <xacro:unless value="${use_mock_hardware}">
           <plugin>odrive_ros2_control_plugin/ODriveHardwareInterface</plugin>
           <param name="can">${can_interface}</param>
-        </hardware>
-      </xacro:unless>
+        </xacro:unless>
+      </hardware>
 
-      <!-- Per-wheel joint definition. node_id is only used by the ODrive
-           backend; mock_components ignores it. direction (+1/-1) is the sign the
-           ODrive backend applies to commands and feedback: the left wheels are
-           mirror-mounted, so they get -1 to spin the correct way for forward
-           motion. mock_components ignores direction too. -->
-      <xacro:macro name="drive_joint" params="name node_id direction:=1">
+      <xacro:macro name="drive_joint" params="name node_id direction:=1 gear_ratio:=35">
         <joint name="${name}">
           <param name="node_id">${node_id}</param>
           <param name="direction">${direction}</param>
+          <param name="gear_ratio">${gear_ratio}</param>
           <command_interface name="velocity"/>
           <state_interface name="position"/>
           <state_interface name="velocity"/>
@@ -38,7 +31,7 @@
         </joint>
       </xacro:macro>
 
-      <!-- Left side (mirror-mounted: inverted) -->
+      <!-- Left side (inverted) -->
       <xacro:drive_joint name="Front_Left_Wheel_Joint"  node_id="4" direction="-1"/>
       <xacro:drive_joint name="Center_Left_Wheel_Joint" node_id="5" direction="-1"/>
       <xacro:drive_joint name="Rear_Left_Wheel_Joint"   node_id="6" direction="-1"/>

@@ -8,10 +8,4 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
-# RViZ Velocity Marker Tool 
-install(PROGRAMS
-  scripts/velocity_marker.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
 ament_package()

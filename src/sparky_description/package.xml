@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>sparky_description</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <description>HW Description package for UWRobotics Sparky 2026</description>
   <author>UWRobotics Team</author>
   <maintainer email="uwaterloorobotics@gmail.com">UWRobotics Team</maintainer>
