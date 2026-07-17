@@ -1,0 +1,20 @@
+[31mCMake Error at /ros2_ws/install/odrive_can/share/odrive_can/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+  By not providing "Findservice_msgs.cmake" in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  "service_msgs", but CMake did not find one.
+
+  Could not find a package configuration file provided by "service_msgs" with
+  any of the following names:
+
+    service_msgsConfig.cmake
+    service_msgs-config.cmake
+
+  Add the installation prefix of "service_msgs" to CMAKE_PREFIX_PATH or set
+  "service_msgs_DIR" to a directory containing one of the above files.  If
+  "service_msgs" provides a separate development package or SDK, be sure it
+  has been installed.
+Call Stack (most recent call first):
+  /ros2_ws/install/odrive_can/share/odrive_can/cmake/odrive_canConfig.cmake:41 (include)
+  CMakeLists.txt:12 (find_package)
+
+[0m

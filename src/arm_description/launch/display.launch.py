@@ -52,6 +52,16 @@ def generate_launch_description():
             ]
         ),
 
+        TimerAction(
+            period=4.0,
+            actions=[
+                ExecuteProcess(
+                    cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'position_controller'],
+                    output='screen'
+                )
+            ]
+        ),
+
         Node(
             package='rviz2',
             executable='rviz2',
