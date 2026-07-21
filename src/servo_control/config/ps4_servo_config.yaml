@@ -6,4 +6,4 @@ servo_control:
     pulse_left_us: 1560
     pulse_right_us: 1400
     dpad_axis: 6 # d-pad left/right axis
-    dpad_axis_left_positive: true # flip to false if left/right feel swapped
+    dpad_axis_left_positive: false # flip to false if left/right feel swapped
