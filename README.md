@@ -69,6 +69,62 @@ ros2 launch <ROS_PKG> <ROS_LAUNCH>
 
 ---
 
+### SIYI Gimbal-Camera (A8 mini)
+
+The SIYI A8 mini streams H.265 video over RTSP and is driven by the `siyi_ros2`
+submodule + the `siyi_sdk` pip package (both installed in the Dockerfile).
+
+**Network:** the camera is at `192.168.144.25`. The host/container must have an IP
+on that subnet and be able to reach it. On a wired interface:
+```bash
+sudo ip addr add 192.168.144.100/24 dev <iface>   # e.g. enp0s31f6
+ping 192.168.144.25                                # confirm reachability
+```
+
+**Launch (use the wrapper — do NOT call the upstream launch bare):**
+```bash
+ros2 launch drivetrain_bringup siyi_camera.launch.py
+```
+The wrapper forces `camera_model:=a8`. This matters: the upstream
+`siyi_ros2/siyi_full.launch.py` defaults `camera_model` to `zt30`, which
+overrides the `a8` in `camera_params.yaml` and builds the wrong RTSP URL
+(`.../video1`, new-gen) instead of the A8's `rtsp://192.168.144.25:8554/main.264`
+(old-gen) — the result is a silent 404 and no video.
+
+**Published topics:**
+- `/siyi/image_raw` (`sensor_msgs/Image`)
+- `/siyi/image_compressed` (`sensor_msgs/CompressedImage`) — lighter over the robot↔groundstation link
+- `/siyi/camera_info`
+
+**Viewing in RViz2:**
+1. `rviz2`, then **Add → Image**, set **Topic** to `/siyi/image_raw`.
+2. **Important:** the publisher uses **BEST_EFFORT** QoS. Expand the display's
+   **Topic → Reliability Policy** and set it to **Best Effort**, or RViz stays
+   blank even though the topic exists.
+3. Cross-machine (RViz on groundstation, node on robot): both must share
+   `ROS_DOMAIN_ID` (47, from `.env`) and the Best-Effort QoS above.
+
+Simpler quick-look alternatives:
+```bash
+ros2 run rqt_image_view rqt_image_view    # pick raw or compressed from the dropdown
+ros2 run image_view image_view --ros-args -r image:=/siyi/image_raw -p reliability:=best_effort
+```
+
+**Decode backend:** on the generic `osrf/ros:humble-desktop` base the node uses
+software H.265 decode (`decodebin` + libav) — no extra packages needed. Hardware
+decode (`nvv4l2decoder`) would require an L4T/JetPack base image + the NVIDIA
+container runtime, and an upstream codec fix (the SDK's Jetson pipeline is
+hardcoded to H.264 while the A8 streams H.265).
+
+**Known issue:** if `siyi_camera_node` aborts at startup on the `gstreamer`
+backend (a `python3-opencv`↔PyGObject-GStreamer library conflict), fall back to
+the OpenCV backend, which needs no code changes:
+```bash
+ros2 launch siyi_ros2 siyi_full.launch.py camera_model:=a8 backend:=opencv
+```
+
+---
+
 ### Debug Info
 
 #### No Gui issue

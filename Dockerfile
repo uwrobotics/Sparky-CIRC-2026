@@ -73,6 +73,15 @@ RUN apt-get update && apt-get install -y \
 # branch that src/siyi_ros2 targets.
 RUN pip install --no-cache-dir "siyi_sdk @ git+https://github.com/mzahana/siyi_sdk.git@siyi-sdk-v2"
 
+# Fail the build loudly if the camera stack is incomplete. An image built before
+# the GStreamer/siyi_sdk layers existed shipped silently broken: the camera node
+# crashed at runtime on `import siyi_sdk` (or `import gi`) inside a ros2 launch,
+# which does not abort the launch — so the camera topics just never appeared with
+# no obvious error. This turns that class of failure into a build-time error.
+RUN python3 -c "import gi; gi.require_version('Gst', '1.0'); from gi.repository import Gst; Gst.init(None)" \
+    && python3 -c "import siyi_sdk; from siyi_sdk.stream import build_rtsp_url, SIYIStream" \
+    && echo "camera stack OK: gi/Gst + siyi_sdk importable"
+
 # Create user with same UID/GID as host user (dynamic)
 ARG USER_ID=1000
 ARG GROUP_ID=1000
