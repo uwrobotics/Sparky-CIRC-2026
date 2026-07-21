@@ -2,10 +2,14 @@
 #
 # Copyright 2026 UWRobotics
 
+import os
+
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -31,6 +35,16 @@ def generate_launch_description():
         }.items(),
     )
 
+    servo_control_node = Node(
+        package='servo_control',
+        executable='servo_control_node',
+        name='servo_control',
+        output='screen',
+        parameters=[os.path.join(
+            get_package_share_directory('servo_control'), 'config', 'ps4_servo_config.yaml')],
+    )
+
     return LaunchDescription(declared_args + [
         drivetrain_launch,
+        servo_control_node,
     ])

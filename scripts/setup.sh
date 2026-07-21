@@ -22,6 +22,12 @@ INPUT_GID=$(getent group input | cut -d: -f3)
 INPUT_GID=${INPUT_GID:-994}
 echo "📋 Detected input group GID: $INPUT_GID (for game controller access)"
 
+# Detect the host 'gpio' group GID so the container user can read/write
+# /dev/gpiochip* (Jetson.GPIO, used by the servo_control node).
+GPIO_GID=$(getent group gpio | cut -d: -f3)
+GPIO_GID=${GPIO_GID:-999}
+echo "📋 Detected gpio group GID: $GPIO_GID (for servo/PWM access)"
+
 # ROS 2 DDS domain ID. Every machine on the access point must use the SAME value
 # to discover each other; a non-zero value also isolates us from other teams that
 # leave the default (0). Override at setup time, e.g. ROS_DOMAIN_ID=12 ./scripts/setup.sh
@@ -114,6 +120,7 @@ USER_ID=$CURRENT_UID
 GROUP_ID=$CURRENT_GID
 USERNAME=$CURRENT_USER
 INPUT_GID=$INPUT_GID
+GPIO_GID=$GPIO_GID
 DOCKER_PLATFORM=$DOCKER_PLATFORM
 ROS_BASE_IMAGE=$ROS_BASE_IMAGE
 # ROS 2 DDS domain — must match on every machine on the access point so the

@@ -1,0 +1,9 @@
+servo_control:
+  ros__parameters:
+    gpio_pin: 15 # BOARD pin 15
+    pwm_freq_hz: 50
+    pulse_neutral_us: 1500
+    pulse_left_us: 1560
+    pulse_right_us: 1400
+    dpad_axis: 6 # d-pad left/right axis
+    dpad_axis_left_positive: true # flip to false if left/right feel swapped

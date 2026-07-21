@@ -9,6 +9,7 @@ services:
         GROUP_ID: ${GROUP_ID:-1000}
         USERNAME: ${USERNAME:-devuser}
         INPUT_GID: ${INPUT_GID:-994}
+        GPIO_GID: ${GPIO_GID:-999}
         ROS_BASE_IMAGE: ${ROS_BASE_IMAGE:-osrf/ros:humble-desktop}
     container_name: ros2_humble_demo
     volumes:
@@ -28,6 +29,7 @@ services:
       - ROS_NET_IFACE=${ROS_NET_IFACE:-}
     group_add:
       - "${INPUT_GID:-994}"
+      - "${GPIO_GID:-999}"
     cap_add:
       - sys_nice
     ulimits:
