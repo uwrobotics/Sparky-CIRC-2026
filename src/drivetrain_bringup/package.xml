@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>drivetrain_bringup</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <description>
     Top-level bringup for the UWRobotics Sparky drivetrain. Launches the
     ros2_control stack (diff_drive_controller over mock or ODrive hardware)

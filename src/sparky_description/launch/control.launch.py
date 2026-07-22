@@ -13,7 +13,7 @@
 #
 # Usage:
 #   ros2 launch sparky_description control.launch.py
-#   ros2 launch sparky_description control.launch.py use_mock_hardware:=false can_interface:=can0   # real ODrive (later)
+#   ros2 launch sparky_description control.launch.py use_mock_hardware:=false can_interface:=can2   # real ODrive (later)
 #
 # Then drive it (PS4 teleop publishes /cmd_vel), or for a quick test:
 #   ros2 topic pub /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.3}, angular: {z: 0.4}}'
@@ -31,6 +31,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
+# TODO: Remove rviz args
 def generate_launch_description():
     pkg = get_package_share_directory('sparky_description')
 
@@ -43,7 +44,7 @@ def generate_launch_description():
             'use_mock_hardware', default_value='true',
             description='true: mock_components (RViz only). false: real ODrive over CAN.'),
         DeclareLaunchArgument(
-            'can_interface', default_value='can0',
+            'can_interface', default_value='can2',
             description='SocketCAN interface for the ODrive backend.'),
         DeclareLaunchArgument(
             'rviz', default_value='true',

@@ -1,10 +1,15 @@
 # groundstation_bringup
 
+## TODO
+
+- [ ] Validate Controller Mapping
+- [ ] Update RViz Config
+
 ## Launch
 
 ```bash
-ros2 launch groundstation_bringup teleop_launch.py            # defaults to ps4
-ros2 launch groundstation_bringup teleop_launch.py joy_config:=stadia
+ros2 launch groundstation_bringup groundstation.launch.py
+ros2 launch groundstation_bringup groundstation.launch.py joy_config:=stadia
 ```
 
 ### Arguments
@@ -12,7 +17,6 @@ ros2 launch groundstation_bringup teleop_launch.py joy_config:=stadia
 | Arg | Default | Values |
 |---|---|---|
 | `joy_config` | `ps4` | `ps4`, `stadia`, `sn30pro`, `steamdeck`, `none` |
-| `executor` | `True` | `True` = combined `teleop_node`; `False` = `twist_mixer` + `joy_mode_handler` separately |
 
 ## Configs
 

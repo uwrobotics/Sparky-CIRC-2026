@@ -39,16 +39,16 @@ RUN apt-get update && apt-get install -y \
     ros-humble-ros2-controllers \
     ros-humble-controller-manager \
     ros-humble-ros2controlcli \
-    ros-humble-diff-drive-controller \
     ros-humble-joint-state-broadcaster \
     ros-humble-joint-state-publisher \
     ros-humble-joint-state-publisher-gui \
-    ros-humble-rviz2 \
     ros-humble-trajectory-msgs \
     ros-humble-velocity-controllers \
+    ros-humble-diff-drive-controller \
     ros-humble-joint-trajectory-controller \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
+    ros-humble-rviz2 \
     cppcheck \
     uncrustify \
     && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \
@@ -91,15 +91,12 @@ RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashr
 WORKDIR /ros2_ws
 RUN chown -R $USERNAME:$USERNAME /ros2_ws
 
-# Copy and setup entrypoint script as root
 COPY scripts/docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
-# Initialize rosdep as root, then fix permissions for the user
 RUN rosdep update && \
     rosdep fix-permissions
 
-# Switch to non-root user for runtime
 USER $USERNAME
 
 # Set the entrypoint

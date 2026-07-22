@@ -1,3 +1,4 @@
+# TODO: Split into 3 launch file: Dev; Rover; GS 
 services:
   ros2-dev:
     platform: ${DOCKER_PLATFORM:-linux/amd64}
@@ -40,6 +41,11 @@ services:
     # defaults to 994 (the usual Ubuntu 'input' GID).
     group_add:
       - "${INPUT_GID:-994}"
+    cap_add:
+      - sys_nice
+    ulimits:
+      rtprio: 99
+      memlock: -1
     network_mode: host
     stdin_open: true
     tty: true
