@@ -69,6 +69,13 @@ ros2 launch <ROS_PKG> <ROS_LAUNCH>
 
 ---
 
+```
+sudo ip addr add 192.168.144.100/24 dev enP8p1s0
+ip addr
+ip route get 192.168.144.25
+ping 192.168.144.25
+```
+
 ### SIYI Gimbal-Camera (A8 mini)
 
 The SIYI A8 mini streams H.265 video over RTSP and is driven by the `siyi_ros2`
@@ -79,6 +86,11 @@ on that subnet and be able to reach it. On a wired interface:
 ```bash
 sudo ip addr add 192.168.144.100/24 dev <iface>   # e.g. enp0s31f6
 ping 192.168.144.25                                # confirm reachability
+gst-launch-1.0 rtspsrc location=rtsp://192.168.144.25:8554/main.264 latency=0 \
+  ! rtph265depay ! h265parse ! avdec_h265 ! videoconvert \
+  ! autovideosink sync=false
+
+sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-{base,good,bad,ugly} gstreamer1.0-libav
 ```
 
 **Launch (use the wrapper — do NOT call the upstream launch bare):**
