@@ -2,4 +2,8 @@
 /install
 /log
 
+# Device Dependent Config
 .env
+
+# Generated Figs
+*.png
