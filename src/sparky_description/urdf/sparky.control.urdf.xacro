@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <!--
-  ros2_control on UWRobotics Sparky URDF.
+  UWRobotics Sparky URDF Package 
 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sparky">
-  <!-- Testing with Software Components Only -->
+  <!-- Launch File Pass-in Args -->
   <xacro:arg name="use_mock_hardware" default="true"/>
-  <!-- Launch with Can Instance Default match Jetson -->
   <xacro:arg name="can_interface"     default="can2"/>
 
   <xacro:include filename="$(find sparky_description)/urdf/sparky_description.urdf"/>

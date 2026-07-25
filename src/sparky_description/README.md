@@ -1,11 +1,36 @@
 # sparky_description
 
-URDF description package for the UWRobotics **Sparky 2026**
-robot (exported from SolidWorks). Ported to **ROS 2 Humble**
-(`ament_cmake`). Currently support RViZ Rover visualization
-and `ros2_control` `diff_drive_controller` mapped to 6 wheel
-rocker-bogie configuration. Currently Gazebo support is
-incomplete.
+Hardware description package for UWRobotics Sparky 2026.
+This package was derived from SolidWorks exporter package
+and ported over to ROS2 Humble.
+
+## TODO:
+
+- [ ] Cascade Controller: <POS> -> Diff Controller<VEL>
+- [ ] Support to Gazebo Simulation
+
+## Detailed Design
+
+`cmd_vel` (Twist) drives `diff_drive_controller`, which turns it into a
+per-wheel velocity command inside `ros2_control`. From there it splits into
+two independent branches: one that ends up on screen in RViz (via TF), and
+one that ends up as motion on the real rover (via the ODrive plugin).
+
+```mermaid
+graph LR
+    twist[/"cmd_vel (Twist)"/] --> ddc[diff_drive_controller]
+    ddc --> wheel[per-wheel velocity command]
+    wheel --> rviz["Branch A: TF → RViz"]
+    wheel --> odrive["Branch B: ODrive → motors"]
+```
+
+## Known Limitation
+
+**Issue 1: Observe `wheel` drifting away from `base_link`**
+
+RViz depends on TF frame posts. If the current system
+contains high latency the RViz might display TF computed from
+few frames before.
 
 ## GUI Visualization Demo 
 
