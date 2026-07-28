@@ -9,6 +9,7 @@
 
 ```bash
 ros2 launch groundstation_bringup groundstation.launch.py
+ros2 launch groundstation_bringup groundstation.launch.py joy_config:=stadia
 ```
 
 ### Arguments

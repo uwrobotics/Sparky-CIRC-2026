@@ -3,7 +3,10 @@
   <name>groundstation_bringup</name>
   <version>1.1.0</version>
   <description>
-    Ground station bringup for the UWRobotics Sparky rover.
+    Ground station bringup for the UWRobotics Sparky rover. Holds the
+    launch files and controller configs for teleoperation, reusing the
+    node executables from the akros2_teleop package. Customize controller
+    mappings and defaults here without modifying the akros2_teleop submodule.
   </description>
   <author>UWRobotics Team</author>
   <maintainer email="uwaterloorobotics@gmail.com">UWRobotics Team</maintainer>

@@ -4,9 +4,15 @@
 [submodule "utils/ros2-migration-tools"]
 	path = utils/ros2-migration-tools
 	url = https://github.com/awslabs/ros2-migration-tools.git
+[submodule "src/arm_teleop"]
+	path = src/arm_teleop
+	url = git@github.com:allenabraham106/arm_teleop.git
 [submodule "src/dualshock4_teleop"]
 	path = src/dualshock4_teleop
 	url = https://github.com/adityakamath/akros2_teleop.git
 [submodule "src/akros2_msgs"]
 	path = src/akros2_msgs
 	url = https://github.com/adityakamath/akros2_msgs.git
+[submodule "src/arm_teleop_messages"]
+	path = src/arm_teleop_messages
+	url = https://github.com/allenabraham106/arm_teleop_messages.git

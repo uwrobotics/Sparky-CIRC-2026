@@ -1,6 +1,16 @@
 ARG ROS_BASE_IMAGE=osrf/ros:humble-desktop
 FROM ${ROS_BASE_IMAGE}
 
+# Purge all existing ROS-related repository lists and update
+RUN apt-get update -o Acquire::AllowInsecureRepositories=true && \
+    apt-get install -y curl gnupg2 lsb-release && \
+    rm -f /etc/apt/sources.list.d/ros*.list && \
+    rm -f /usr/share/keyrings/ros2-latest-archive-keyring.gpg && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list && \
+    apt-get update
+
+# Install additional tools and complete testing/linting packages
 RUN apt-get update && apt-get install -y \
     python3-colcon-common-extensions \
     python3-rosdep \
@@ -60,9 +70,18 @@ RUN groupadd -g $GROUP_ID -o $USERNAME 2>/dev/null || true && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
+# Give the GID used for /dev/input a name so shells don't warn
+# ("cannot find name for group ID"), and add the user to it. The runtime
+# group_add in docker-compose.yml uses the same GID.
 RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
     usermod -aG $INPUT_GID $USERNAME 2>/dev/null || true
 
+# Auto-source ROS env in interactive shells. `docker compose exec` does NOT
+# run the entrypoint, so without this, ament_* lint scripts fail with
+# "PackageNotFoundError: No package metadata was found for ament-*".
+# The ROS_DOMAIN_ID default also runs here because `exec` skips the entrypoint:
+# this guarantees interactive shells share the same DDS domain on every target
+# (amd64 / arm64), while still honoring an overriding ROS_DOMAIN_ID from compose.
 RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /tmp/sparky_fastdds_profiles.xml ] && export FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/sparky_fastdds_profiles.xml' >> /home/$USERNAME/.bashrc && \
     echo 'source /opt/ros/humble/setup.bash' >> /home/$USERNAME/.bashrc && \

@@ -3,7 +3,10 @@
   <name>drivetrain_bringup</name>
   <version>1.1.0</version>
   <description>
-    Top-level bringup for the UWRobotics Sparky drivetrain. 
+    Top-level bringup for the UWRobotics Sparky drivetrain. Launches the
+    ros2_control stack (diff_drive_controller over mock or ODrive hardware)
+    with RViz visualization, and optionally the PS4 teleop. Composes the
+    launch files from sparky_description and groundstation_bringup.
   </description>
   <author>UWRobotics Team</author>
   <maintainer email="uwaterloorobotics@gmail.com">UWRobotics Team</maintainer>
@@ -11,6 +14,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <!-- Control stack + RViz come from sparky_description; PS4 teleop from
+       groundstation_bringup. -->
   <exec_depend>sparky_description</exec_depend>
   <exec_depend>groundstation_bringup</exec_depend>
 
