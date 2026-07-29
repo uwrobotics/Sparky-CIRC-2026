@@ -14,15 +14,11 @@ axes into a velocity command.
 - Parameters: `config/<joy_config>_twist_config.yaml` (axis mapping,
   scale_linear, scale_angular, turbo)
 
-**teleop_node** — `akros2_teleop` / `teleop_node`. Mixes teleop input
-into the final drive command.
-- Subscribes: `/joy_vel` [`geometry_msgs/msg/Twist`]
-- Publishes: `/cmd_vel` [`geometry_msgs/msg/Twist`]
-- Parameters: `timer_period: 0.02`, `config/<joy_config>_mode_config.yaml`
-
-**diff_drive_controller** — ros2_control controller consuming
-`/cmd_vel`, drives the 6 wheels. Configured in
-`sparky_description/config/sparky_controllers.yaml`.
+**forward_velocity_controller** — stock ros2_control
+`forward_command_controller/ForwardCommandController`, configured for
+the 6 arm joints (`Joint_1`–`Joint_6`) with `interface_name: velocity`.
+Consumes `/forward_velocity_controller/commands`
+[`std_msgs/msg/Float64MultiArray`] from `arm_teleop_node`.
 
 ### Arm pipeline
 
@@ -42,8 +38,8 @@ input to arm joint velocities, with an e-stop safety cutoff.
 - Publishes: `/forward_velocity_controller/commands`
   [`std_msgs/msg/Float64MultiArray`]
 
-**forward_velocity_controller** — ros2_control controller consuming
-the joint velocity commands, drives the arm.
+*(→ /forward_velocity_controller/commands feeds the arm's ros2_control
+controller, documented separately)*
 
 Note: `joy_node_drive` and `joy_node_arm` run simultaneously,
 distinguished by `device_name` (not index), so two physical

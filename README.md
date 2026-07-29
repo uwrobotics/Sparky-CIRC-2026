@@ -46,12 +46,12 @@ flowchart TB
   subgraph BOARD3["NVidia Jetson Nano(Arm Host)"]
     B3_S1[Driver: ODrive - CAN]
     B3_S2[Driver: Teledyne Gripper Camera - USB]
-    %% Current Implementation
+    %% Current Implementation (verified in RViz/mock, not yet on hardware)
     B3_S3[Controller: Forward Command Controller]
+    B3_S6[Broadcaster: Joint State Broadcaster]
     %% Ideal Implementation
     B3_S4[Controller: Joint Trajectory Controller]
     B3_S5[Controller: Gripper Controller]
-    B3_S6[Broadcaster: Joint State Broadcaster]
     B3_S7[Broadcaster: Pose Broadcaster]
     B3_S8[Planner: MoveIt2] 
   end
