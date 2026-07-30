@@ -32,9 +32,9 @@
       </xacro:macro>
 
       <!-- Left side (inverted) -->
-      <xacro:drive_joint name="Front_Left_Wheel_Joint"  node_id="4" direction="-1"/>
-      <xacro:drive_joint name="Center_Left_Wheel_Joint" node_id="5" direction="-1"/>
-      <xacro:drive_joint name="Rear_Left_Wheel_Joint"   node_id="6" direction="-1"/>
+      <xacro:drive_joint name="Front_Left_Wheel_Joint"  node_id="4"/>
+      <xacro:drive_joint name="Center_Left_Wheel_Joint" node_id="5"/>
+      <xacro:drive_joint name="Rear_Left_Wheel_Joint"   node_id="6"/>
 
       <!-- Right side -->
       <xacro:drive_joint name="Front_Right_Wheel_Joint"  node_id="1"/>
