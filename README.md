@@ -6,12 +6,29 @@ related modules.
 
 ## TODO
 
+### CIRC 2026 Before Departure Checklist
+
+- [ ] Check Right Rear ODrive Motor Connection Reliability (Record Incident)
+- [ ] Sign-off Drivetrain Functionality (981f76ecb99a64d04853bbb91b574ff5180fc544)
+- [ ] Gimbal Camera GStreamer to RViz
+- [ ] Gimbal Camera Control
+- [ ] VN-300 IMU Sensor Fusion
+- [ ] VN-300 GPS Tracking
+- [ ] Aux Board Tracking Antenna Yaw Testing
+- [ ] GroundStation Manual Yaw Alignment
+- [ ] Aux Board LED Strip Control + Fusing
+- [ ] Aux Board Arm SSR Control
+- [ ] Arm Main Power Rail Fusing
+- [ ] Arm CAN Connectivity Testing
+- [ ] Arm ODrive Scale Configuration
+- [ ] Arm Ros2 Control Support
+
+### CIRC 2026 Nice to Have
+
+- [ ] Nav2 Waypoint tracking using GPS
+
+### Feature Support
 - [ ] VCAN ODrive Support
-- [x] Ros_Odrive rover integration
-- [ ] VN-300 Driver
-- [ ] IMU Drift Compensation
-- [ ] Camera Ethernet
-- [ ] Back-up RF
 - [ ] Unit test
 - [ ] Application test
 
@@ -170,6 +187,18 @@ docker compose exec ros2-dev bash
 
 # Remove the docker container
 docker compose down
+```
+
+### Gimbal Camera Direct Connection
+
+```bash
+sudo ip addr add 192.168.144.100/24 dev <iface>   # e.g. enp0s31f6
+ping 192.168.144.25                                # confirm reachability
+gst-launch-1.0 rtspsrc location=rtsp://192.168.144.25:8554/main.264 latency=0 \
+  ! rtph265depay ! h265parse ! avdec_h265 ! videoconvert \
+  ! autovideosink sync=false
+
+sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-{base,good,bad,ugly} gstreamer1.0-libav
 ```
 
 ### ROS Package
