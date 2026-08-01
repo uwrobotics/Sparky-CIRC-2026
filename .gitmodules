@@ -16,3 +16,6 @@
 [submodule "src/siyi_ros2"]
 	path = src/siyi_ros2
 	url = https://github.com/mzahana/siyi_ros2.git
+[submodule "src/sensor_vn300"]
+	path = src/sensor_vn300
+	url = git@github.com:uwrobotics/VectorNav-ROS2-Mirror.git
