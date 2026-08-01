@@ -41,6 +41,19 @@ RUN apt-get update && apt-get install -y \
     ros-humble-rviz2 \
     cppcheck \
     uncrustify \
+    python3-gi \
+    gir1.2-gstreamer-1.0 \
+    gstreamer1.0-tools \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav \
+    python3-opencv \
+    ros-humble-cv-bridge \
+    ros-humble-camera-info-manager \
+    ros-humble-camera-info-manager-py \
+    ros-humble-image-transport \
+    ros-humble-image-transport-plugins \
     && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \
         apt-get install -y \
             ros-humble-gazebo-ros-pkgs \
@@ -77,6 +90,11 @@ RUN chmod +x /docker-entrypoint.sh
 
 RUN rosdep update && \
     rosdep fix-permissions
+
+# import siyi_sdk
+ARG SIYI_SDK_REF=89c34b15a6660cdbf59578ea9053b761f67b186a
+RUN pip install --no-cache-dir \
+    "git+https://github.com/mzahana/siyi_sdk.git@${SIYI_SDK_REF}"
 
 USER $USERNAME
 

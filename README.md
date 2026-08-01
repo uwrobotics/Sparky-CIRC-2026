@@ -170,6 +170,12 @@ TODO: Add Qualification Tests Lists
 ./scripts/setup.sh
 ```
 
+**Setup Gimbal Camera Connection**
+```bash
+sudo ip addr add 192.168.144.100/24 dev <iface>   # e.g. enp0s31f6
+ping 192.168.144.25        
+```
+
 **Linux Only: Grant Docker access to your X server:**
 ```bash
 xhost +local:docker
@@ -241,3 +247,11 @@ This repository bundles third-party components under their own licenses (see [NO
 - `src/ros_odrive` (submodule) — MIT, © ODrive Robotics (see `src/ros_odrive/LICENSE`).
 - `src/dualshock4_teleop` (akros2_teleop, submodule) — Apache-2.0, © 2023 Aditya Kamath (see `src/dualshock4_teleop/LICENSE`).
 - `src/akros2_msgs` (submodule) — Apache-2.0, © 2023 Aditya Kamath (see `src/akros2_msgs/LICENSE`).
+- `src/siyi_msgs` (submodule) — MIT, © Mohamed Abdelkader (declared in `package.xml`; upstream ships no LICENSE file).
+- `src/siyi_ros2` (submodule) — MIT, © Mohamed Abdelkader (declared in `package.xml`; upstream ships no LICENSE file).
+- `siyi_sdk` (not vendored; installed into the Docker image by `Dockerfile`) — MIT, © SIYI SDK Contributors.
+- `utils/ros2-migration-tools` (submodule, dev utility) — Apache-2.0, © 2018 Amazon.com, Inc. (see `utils/ros2-migration-tools/LICENSE` and its `NOTICE`).
+
+The Docker image also installs ROS 2 Humble and a GStreamer video stack (LGPL-2.1-or-later,
+including `gstreamer1.0-libav`/FFmpeg as packaged by Ubuntu) from upstream archives.
+`gstreamer1.0-plugins-ugly` is intentionally excluded — see [NOTICE](NOTICE) before adding it.

@@ -10,3 +10,9 @@
 [submodule "src/akros2_msgs"]
 	path = src/akros2_msgs
 	url = https://github.com/adityakamath/akros2_msgs.git
+[submodule "src/siyi_msgs"]
+	path = src/siyi_msgs
+	url = https://github.com/mzahana/siyi_msgs.git
+[submodule "src/siyi_ros2"]
+	path = src/siyi_ros2
+	url = https://github.com/mzahana/siyi_ros2.git
