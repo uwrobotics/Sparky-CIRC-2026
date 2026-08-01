@@ -67,6 +67,8 @@ ARG GROUP_ID=1000
 ARG USERNAME=devuser
 # Host 'input' group GID, for reading /dev/input/event* (game controllers).
 ARG INPUT_GID=994
+# Host 'dialout' group GID, for opening /dev/ttyUSB* (VectorNav VN-300).
+ARG DIALOUT_GID=20
 
 RUN groupadd -g $GROUP_ID -o $USERNAME 2>/dev/null || true && \
     useradd -m -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USERNAME 2>/dev/null || true && \
@@ -75,6 +77,9 @@ RUN groupadd -g $GROUP_ID -o $USERNAME 2>/dev/null || true && \
 
 RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
     usermod -aG $INPUT_GID $USERNAME 2>/dev/null || true
+
+RUN groupadd -g $DIALOUT_GID -o hostdialout 2>/dev/null || true && \
+    usermod -aG $DIALOUT_GID $USERNAME 2>/dev/null || true
 
 RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /tmp/sparky_fastdds_profiles.xml ] && export FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/sparky_fastdds_profiles.xml' >> /home/$USERNAME/.bashrc && \
