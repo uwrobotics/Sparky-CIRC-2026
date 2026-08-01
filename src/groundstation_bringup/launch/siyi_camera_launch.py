@@ -4,6 +4,7 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -45,8 +46,12 @@ def generate_launch_description():
             'jpeg_quality', default_value='80',
             description='JPEG quality for the compressed topic (1 to 100).'),
         DeclareLaunchArgument(
-            'latency_ms', default_value='0',
-            description='GStreamer rtspsrc buffer. 0: lowest latency.'),
+            'latency_ms', default_value='200',
+            description=(
+                'GStreamer rtspsrc jitter buffer. 0 disables it entirely, which '
+                'makes rtpjitterbuffer discard any late/reordered packet -- over '
+                'the AP link that costs reference frames and the decoder logs '
+                '"Could not find ref with POC". 200 measured clean.'),),
         DeclareLaunchArgument(
             'frame_id', default_value='siyi_camera',
             description='TF frame stamped on published images.'),
@@ -65,6 +70,19 @@ def generate_launch_description():
                 'GStreamer log level. 1 keeps real errors visible; 0 hides them '
                 'entirely, including the reason a stream never starts. Raise to '
                 '3+ when debugging pipeline negotiation.'),),
+        DeclareLaunchArgument(
+            'use_watchdog', default_value='true',
+            description=(
+                'Restart the camera node when the stream stalls. The A8 drops '
+                'its RTSP session ~30-50 s after sustained gimbal commands and '
+                'the GStreamer backend never reconnects, so without this the '
+                'feed stays frozen until the node is restarted by hand.'),),
+        DeclareLaunchArgument(
+            'stall_timeout_s', default_value='0.5',
+            description=(
+                'Seconds without a frame before the watchdog restarts. A '
+                'healthy stream shows gaps up to ~190 ms, so lower values '
+                'restart on jitter rather than on a real stall.'),),
     ]
 
     camera_params = PathJoinSubstitution(
@@ -111,6 +129,22 @@ def generate_launch_description():
             'LD_PRELOAD': 'libgstreamer-1.0.so.0',
             'GSETTINGS_BACKEND': 'memory',
         },
+        # Paired with siyi_watchdog: the watchdog signals this process to exit
+        # when the stream stalls, and respawn brings it straight back.
+        respawn=True,
+        respawn_delay=0.5,
+    )
+
+    watchdog_node = Node(
+        package='siyi_watchdog',
+        executable='camera_watchdog',
+        name='camera_watchdog',
+        namespace=LaunchConfiguration('namespace'),
+        parameters=[{
+            'stall_timeout_s': LaunchConfiguration('stall_timeout_s'),
+        }],
+        output='screen',
+        condition=IfCondition(LaunchConfiguration('use_watchdog')),
     )
 
     # The SIYI SDK is extremely chatty at default log levels; GStreamer's level is
@@ -123,4 +157,5 @@ def generate_launch_description():
 
     return LaunchDescription(declared_args + log_env + [
         camera_node,
+        watchdog_node,
     ])

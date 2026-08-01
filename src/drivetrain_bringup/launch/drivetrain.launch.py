@@ -13,7 +13,8 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_mock_hardware = LaunchConfiguration('use_mock_hardware')
     can_interface = LaunchConfiguration('can_interface')
-    use_imu = LaunchConfiguration('use_imu')
+    use_gimbal = LaunchConfiguration('use_gimbal')
+    gimbal_host = LaunchConfiguration('gimbal_host')
 
     declared_args = [
         DeclareLaunchArgument(

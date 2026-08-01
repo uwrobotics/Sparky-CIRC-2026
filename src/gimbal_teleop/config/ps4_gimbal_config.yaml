@@ -1,0 +1,14 @@
+gimbal_joy_node:
+  ros__parameters:
+    yaw_axis: 6      # D-pad left-right (+1 = right)
+    pitch_axis: 7    # D-pad up-down (+1 = down)
+    yaw_rate_dps: 30.0
+    pitch_rate_dps: 30.0
+    invert_yaw: true 
+    invert_pitch: false  # D-pad up slews the camera up (verified on hardware)
+    axis_threshold: 0.5
+    publish_rate_hz: 20.0
+    zero_hold_s: 0.5
+    joy_timeout_s: 0.5   # stop the gimbal if /joy goes quiet
+    enable_button: -1    # -1: no deadman. e.g. 10 (R1) to require a hold
+    frame_id: siyi_gimbal

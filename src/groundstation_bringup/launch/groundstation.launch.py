@@ -15,6 +15,7 @@ def generate_launch_description():
     joy_config = LaunchConfiguration('joy_config')
     use_camera = LaunchConfiguration('use_camera')
     camera_host = LaunchConfiguration('camera_host')
+    use_gimbal_teleop = LaunchConfiguration('use_gimbal_teleop')
 
     declared_args = [
         DeclareLaunchArgument(
@@ -23,6 +24,9 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'use_camera', default_value='true',
             description='Decode the SIYI RTSP feed into ROS image topics.'),
+        DeclareLaunchArgument(
+            'use_gimbal_teleop', default_value='true',
+            description='Drive the SIYI gimbal with the controller D-pad.'),
         DeclareLaunchArgument(
             'camera_host', default_value='192.168.144.25',
             description='SIYI camera IP as reachable from the groundstation.'),
@@ -41,6 +45,13 @@ def generate_launch_description():
         condition=IfCondition(use_camera),
     )
 
+    gimbal_teleop_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(PathJoinSubstitution(
+            [FindPackageShare('gimbal_teleop'), 'launch', 'gimbal_teleop.launch.py'])),
+        launch_arguments={'joy_config': joy_config}.items(),
+        condition=IfCondition(use_gimbal_teleop),
+    )
+
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -53,5 +64,6 @@ def generate_launch_description():
     return LaunchDescription(declared_args + [
         teleop_launch,
         siyi_camera_launch,
+        gimbal_teleop_launch,
         rviz_node,
     ])
