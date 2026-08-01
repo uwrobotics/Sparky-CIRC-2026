@@ -10,8 +10,8 @@ related modules.
 
 - [ ] Check Right Rear ODrive Motor Connection Reliability (Record Incident)
 - [ ] Sign-off Drivetrain Functionality (981f76ecb99a64d04853bbb91b574ff5180fc544)
-- [ ] Gimbal Camera GStreamer to RViz
-- [ ] Gimbal Camera Control
+- [x] Gimbal Camera GStreamer to RViz
+- [ ] Gimbal Camera Control (NOT SUPPORTED for CIRC 2026)
 - [ ] VN-300 IMU Sensor Fusion
 - [ ] VN-300 GPS Tracking
 - [ ] Aux Board Tracking Antenna Yaw Testing
