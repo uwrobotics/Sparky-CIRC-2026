@@ -1,5 +1,0 @@
-sudo apt install python3-pip
-sudo apt install python3-serial
-# cd to directory of uart_recv_test.py
-sudo usermod -aG dialout $USER
-sudo python3 uart_recv_test.py
