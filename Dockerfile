@@ -1,6 +1,16 @@
 ARG ROS_BASE_IMAGE=osrf/ros:humble-desktop
 FROM ${ROS_BASE_IMAGE}
 
+# Purge all existing ROS-related repository lists and update
+RUN apt-get update -o Acquire::AllowInsecureRepositories=true && \
+    apt-get install -y curl gnupg2 lsb-release && \
+    rm -f /etc/apt/sources.list.d/ros*.list && \
+    rm -f /usr/share/keyrings/ros2-latest-archive-keyring.gpg && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list && \
+    apt-get update
+
+# Install additional tools and complete testing/linting packages
 RUN apt-get update && apt-get install -y \
     python3-colcon-common-extensions \
     python3-rosdep \

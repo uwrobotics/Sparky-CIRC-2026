@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm">
+  <xacro:arg name="use_mock_hardware" default="true"/>
+
+  <xacro:include filename="$(find arm_description)/urdf/dummy_urdf.urdf"/>
+  <xacro:include filename="$(find arm_description)/urdf/arm.ros2_control.xacro"/>
+
+  <xacro:arm_ros2_control
+    name="ArmSystem"
+    use_mock_hardware="$(arg use_mock_hardware)"/>
+</robot>
