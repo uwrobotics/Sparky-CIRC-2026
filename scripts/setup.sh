@@ -22,6 +22,14 @@ INPUT_GID=$(getent group input | cut -d: -f3)
 INPUT_GID=${INPUT_GID:-994}
 echo "📋 Detected input group GID: $INPUT_GID (for game controller access)"
 
+# Detect the host 'dialout' group GID so the container user can open USB serial
+# ports (/dev/ttyUSB*), e.g. the VectorNav VN-300. These are root:dialout 0660,
+# so without this the driver fails with "Unable to connect to device".
+# Falls back to 20, the usual Ubuntu 'dialout' GID.
+DIALOUT_GID=$(getent group dialout | cut -d: -f3)
+DIALOUT_GID=${DIALOUT_GID:-20}
+echo "📋 Detected dialout group GID: $DIALOUT_GID (for USB serial / VN-300 access)"
+
 # ROS 2 DDS domain ID. Every machine on the access point must use the SAME value
 # to discover each other; a non-zero value also isolates us from other teams that
 # leave the default (0). Override at setup time, e.g. ROS_DOMAIN_ID=12 ./scripts/setup.sh
@@ -114,6 +122,7 @@ USER_ID=$CURRENT_UID
 GROUP_ID=$CURRENT_GID
 USERNAME=$CURRENT_USER
 INPUT_GID=$INPUT_GID
+DIALOUT_GID=$DIALOUT_GID
 DOCKER_PLATFORM=$DOCKER_PLATFORM
 ROS_BASE_IMAGE=$ROS_BASE_IMAGE
 # ROS 2 DDS domain — must match on every machine on the access point so the

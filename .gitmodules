@@ -16,3 +16,12 @@
 [submodule "src/arm_teleop_messages"]
 	path = src/arm_teleop_messages
 	url = https://github.com/allenabraham106/arm_teleop_messages.git
+[submodule "src/siyi_msgs"]
+	path = src/siyi_msgs
+	url = https://github.com/mzahana/siyi_msgs.git
+[submodule "src/siyi_ros2"]
+	path = src/siyi_ros2
+	url = https://github.com/mzahana/siyi_ros2.git
+[submodule "src/sensor_vn300"]
+	path = src/sensor_vn300
+	url = git@github.com:uwrobotics/VectorNav-ROS2-Mirror.git

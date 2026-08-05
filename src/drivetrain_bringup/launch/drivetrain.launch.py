@@ -4,6 +4,7 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
@@ -12,6 +13,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_mock_hardware = LaunchConfiguration('use_mock_hardware')
     can_interface = LaunchConfiguration('can_interface')
+    use_imu = LaunchConfiguration('use_imu')
 
     declared_args = [
         DeclareLaunchArgument(
@@ -20,6 +22,9 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'can_interface', default_value='can2',
             description='SocketCAN interface.'),
+        DeclareLaunchArgument(
+            'use_imu', default_value='true',
+            description='Run the VectorNav VN-300 GNSS/INS driver on the rover.'),
     ]
 
     drivetrain_launch = IncludeLaunchDescription(
@@ -31,6 +36,13 @@ def generate_launch_description():
         }.items(),
     )
 
+    vectornav_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(PathJoinSubstitution(
+            [FindPackageShare('vectornav'), 'launch', 'vectornav.launch.py'])),
+        condition=IfCondition(use_imu),
+    )
+
     return LaunchDescription(declared_args + [
         drivetrain_launch,
+        vectornav_launch,
     ])
