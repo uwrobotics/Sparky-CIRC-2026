@@ -96,6 +96,9 @@
       link="Link_2" />
     <axis
       xyz="0 0 1" />
+    <limit
+      velocity="5.236"
+      effort="0" />
   </joint>
   <link
     name="Link_3">
@@ -139,7 +142,7 @@
   </link>
   <joint
     name="Joint_2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.0729"
       rpy="0 0 0" />
@@ -149,6 +152,11 @@
       link="Link_3" />
     <axis
       xyz="0 -1 0" />
+    <limit
+      lower="0.0349"
+      upper="3.1765"
+      velocity="0.873"
+      effort="0" />
   </joint>
   <link
     name="Link_4">
@@ -192,7 +200,7 @@
   </link>
   <joint
     name="Joint_3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.1064 0 0.38559"
       rpy="0 0.60304 0" />
@@ -202,6 +210,11 @@
       link="Link_4" />
     <axis
       xyz="0 1 0" />
+    <limit
+      lower="0.0349"
+      upper="3.1765"
+      velocity="1.080"
+      effort="0" />
   </joint>
   <link
     name="Link_5">
@@ -255,6 +268,9 @@
       link="Link_5" />
     <axis
       xyz="1 0 0" />
+    <limit
+      velocity="1.007"
+      effort="0" />
   </joint>
   <link
     name="Link_6">
@@ -298,7 +314,7 @@
   </link>
   <joint
     name="Joint_5"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.24141 0 0"
       rpy="0 0 0" />
@@ -308,6 +324,11 @@
       link="Link_6" />
     <axis
       xyz="0 1 0" />
+    <limit
+      lower="-0.9774"
+      upper="1.8850"
+      velocity="1.007"
+      effort="0" />
   </joint>
   <link
     name="Gripper">
@@ -361,5 +382,8 @@
       link="Gripper" />
     <axis
       xyz="1 0 0" />
+    <limit
+      velocity="1.007"
+      effort="0" />
   </joint>
 </robot>
