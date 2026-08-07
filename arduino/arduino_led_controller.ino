@@ -222,7 +222,7 @@ void setPWMDutyCyclePercent(int percent, int decimal) {
   decimal = max(0, decimal);
 
   float full_percent = percent + (float)decimal / pow(10.0, String(decimal).length());
-  int value = round((full_percent / 100.0) * pow(2, PWM_RES));
+  uint32_t value = (uint32_t)round((full_percent / 100.0) * pow(2, PWM_RES));
 
   resetPWMTimout();
 
