@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'UAC_node = uart_arduino_communicator.UAC_node:main',
         ],
     },
 )
