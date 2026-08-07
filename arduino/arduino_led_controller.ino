@@ -1,12 +1,31 @@
 #include <seesaw_neopixel.h>
 
+// NEODRIVER
 #define BOARD_ADDRESS 0x60
 #define NUM_PIXELS 5
 #define PIN 15
 
-#define MAX_LINE_READS 5
 #define MIN_PIXELS 0
 
+// UART
+#define MAX_LINE_READS 5
+
+// PWM
+#define PWM_TIMEOUT 500 // in ms
+#define PWM_TIMEOUT_DUTY 0
+#define PWM_FREQ 50 // in Hz
+#define PWM_RES 12 // bits
+#define PWM_CHANNEL 0
+const int PWM_PIN = A6;
+
+int pwm_timeout = PWM_TIMEOUT;
+int pwm_prev_count = 0;
+bool pwm_active = false;
+
+// DEBUG
+const bool PWM_DEBUG = true;
+
+// Arduino Code
 seesaw_NeoPixel strip = seesaw_NeoPixel(NUM_PIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
