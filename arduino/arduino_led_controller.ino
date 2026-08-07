@@ -51,6 +51,7 @@ void setup() {
 }
 
 void loop() {
+  checkPWMTimeout();
   receiveUART();
 }
 
@@ -72,6 +73,7 @@ void receiveUART() {
 void decodeUART(String line) {
   String functionID = line.substring(0,2);
 
+  // LED
   if (functionID == "sc")
   {
     const uint8_t args = 3;
@@ -95,6 +97,28 @@ void decodeUART(String line) {
 
     if (!parseProtocol(line, payload, args)) { return; }
     setLength(payload[0]);
+  }
+  // PWM
+  else if (functionID == "pd") {
+    const uint8_t args = 2;
+    int payload[args];
+
+    if (!parseProtocol(line, payload, args)) { return; }
+    setPWMDutyCyclePercent(payload[0], payload[1]);
+  }
+  else if (functionID == "pf") {
+    const uint8_t args = 1;
+    int payload[args];
+
+    if (!parseProtocol(line, payload, args)) { return; }
+    setPWMFrequency(payload[0]);
+  }
+  else if (functionID == "pt") {
+    const uint8_t args = 1;
+    int payload[args];
+
+    if (!parseProtocol(line, payload, args)) { return; }
+    setPWMTimeout(payload[0]);
   }
   else
   {
@@ -167,4 +191,50 @@ void setLength(int n) {
 
   strip.updateLength(n);
   Serial.printf("setLength: To %d\r\n", n);
+}
+
+// PWM API
+
+void checkPWMTimeout() {
+  if (!pwm_active) return;
+
+  int pwm_curr_count = millis();
+  if (pwm_curr_count - pwm_prev_count >= pwm_timeout) {
+    pwm_active = false;
+    ledcWrite(PWM_CHANNEL, PWM_TIMEOUT_DUTY);
+    Serial.printf("checkPWMTimeout: PWM timout reached\r\n");
+  }
+}
+
+void resetPWMTimout() {
+  pwm_prev_count = millis();
+  Serial.printf("resetPWMTimout: PWM timeout reset\r\n");
+}
+
+void setPWMTimeout(int timeout) {
+  pwm_timeout = timeout;
+  Serial.printf("setPWMTimeout: PWM timeout changed to %d ms\r\n", timeout);
+}
+
+void setPWMDutyCyclePercent(int percent, int decimal) {
+  percent = constrain(percent, 0, 100);
+  decimal = percent == 100 ? 0 : decimal;
+  decimal = max(0, decimal);
+
+  float full_percent = percent + (float)decimal / pow(10.0, String(decimal).length());
+  int value = round((full_percent / 100.0) * pow(2, PWM_RES));
+
+  resetPWMTimout();
+
+  ledcWrite(PWM_CHANNEL, value);
+  Serial.printf("setDutyCycle: Duty cycle set to ~%d percent (%d/4095) \r\n", percent, value);
+
+  pwm_active = true;
+}
+
+void setPWMFrequency(int f_arg) {
+  uint32_t f = (uint32_t)constrain(f_arg, 0, UINT32_MAX);
+
+  ledcChangeFrequency(PWM_CHANNEL, f, PWM_RES);
+  Serial.printf("setPWMFrequency: To %d Hz\r\n", f);
 }
