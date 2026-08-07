@@ -7,7 +7,6 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -22,8 +21,11 @@ def generate_launch_description():
             'joy_config', default_value='ps4',
             description='Controller option: ps4(default), stadia, sn30pro, steamdeck.'),
         DeclareLaunchArgument(
-            'use_camera', default_value='true',
-            description='Decode the SIYI RTSP feed into ROS image topics.'),
+            'use_camera', default_value='false',
+            description=(
+                'Decode the SIYI RTSP feed into ROS image topics. Off by '
+                'default: nothing on the groundstation consumes them now that '
+                'the feed is not displayed in RViz.'),),
         DeclareLaunchArgument(
             'use_gimbal_teleop', default_value='true',
             description='Drive the SIYI gimbal with the controller D-pad.'),
@@ -52,18 +54,8 @@ def generate_launch_description():
         condition=IfCondition(use_gimbal_teleop),
     )
 
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', PathJoinSubstitution(
-            [FindPackageShare('groundstation_bringup'), 'rviz', 'groundstation.rviz'])],
-        output='log',
-    )
-
     return LaunchDescription(declared_args + [
         teleop_launch,
         siyi_camera_launch,
         gimbal_teleop_launch,
-        rviz_node,
     ])

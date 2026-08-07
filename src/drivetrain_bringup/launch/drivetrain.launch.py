@@ -13,6 +13,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_mock_hardware = LaunchConfiguration('use_mock_hardware')
     can_interface = LaunchConfiguration('can_interface')
+    use_imu = LaunchConfiguration('use_imu')
     use_gimbal = LaunchConfiguration('use_gimbal')
     gimbal_host = LaunchConfiguration('gimbal_host')
 
@@ -26,6 +27,12 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'use_imu', default_value='true',
             description='Run the VectorNav VN-300 GNSS/INS driver on the rover.'),
+        DeclareLaunchArgument(
+            'use_gimbal', default_value='true',
+            description='Run SIYI gimbal control/telemetry on the rover.'),
+        DeclareLaunchArgument(
+            'gimbal_host', default_value='192.168.144.25',
+            description='SIYI gimbal IP on the rover-side network.'),
     ]
 
     drivetrain_launch = IncludeLaunchDescription(
@@ -43,7 +50,21 @@ def generate_launch_description():
         condition=IfCondition(use_imu),
     )
 
+    # siyi_node holds the UDP:37260 control link to the gimbal and is the only
+    # subscriber of /siyi/cmd/rate, which gimbal_teleop publishes from the
+    # groundstation D-pad. Without it the D-pad commands go nowhere.
+    siyi_gimbal_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(PathJoinSubstitution(
+            [FindPackageShare('siyi_ros2'), 'launch', 'siyi.launch.py'])),
+        launch_arguments={
+            'host': gimbal_host,
+            'auto_reconnect': 'true',
+        }.items(),
+        condition=IfCondition(use_gimbal),
+    )
+
     return LaunchDescription(declared_args + [
         drivetrain_launch,
         vectornav_launch,
+        siyi_gimbal_launch,
     ])
