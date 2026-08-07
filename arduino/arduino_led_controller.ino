@@ -33,14 +33,21 @@ void setup() {
   
   while (!Serial) delay(10);   // wait until serial port is opened
   
-  if(!strip.begin(BOARD_ADDRESS)){
-    Serial.println("seesaw not found!");
-    while(1) delay(10);
+  if (!PWM_DEBUG) {
+    if(!strip.begin(BOARD_ADDRESS)){
+      Serial.println("seesaw not found!");
+      while(1) delay(10);
+    }
+    
+    Serial.println(F("seesaw started OK!"));
+    
+    strip.show(); // Initialize all pixels to 'off'
+  } else {
+    Serial.println("In PWM_DEBUG mode");
   }
   
-  Serial.println(F("seesaw started OK!"));
-  
-  strip.show(); // Initialize all pixels to 'off'
+  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RES);
+  ledcAttachPin(PWM_PIN, PWM_CHANNEL);
 }
 
 void loop() {
