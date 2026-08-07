@@ -9,6 +9,9 @@
 
   <xacro:include filename="$(find sparky_description)/urdf/sparky_description.urdf"/>
 
+  <!-- Sensor frames (VectorNav VN-300) -->
+  <xacro:include filename="$(find sparky_description)/urdf/sparky.sensors.xacro"/>
+
   <!-- ros2_control hardware interface -->
   <xacro:include filename="$(find sparky_description)/urdf/sparky.ros2_control.xacro"/>
 

@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /RobotModel1
         - /TF1
+        - /AerialMap1
       Splitter Ratio: 0.5
     Tree Height: 600
   - Class: rviz_common/Views
@@ -56,6 +57,42 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Value: true
+    # Satellite/OSM tiles under the rover, anchored on the VN-300 fix.
+    # rviz_satellite positions the tile plane by looking up TF from the Fixed
+    # Frame to the NavSatFix header's frame_id -- so the "vectornav" link in
+    # sparky.sensors.xacro is a hard requirement, not decoration.
+    #
+    # It also validates every message: NO_FIX status or NaN lat/lon are dropped
+    # with a red error and the tiles simply stop updating, so a dead GNSS can
+    # never teleport the map to Null Island.
+    #
+    # Timeout is the fade-out: tiles start dimming at 1.5 s without a valid fix
+    # and vanish at 3 s, which is the visual cue that GNSS dropped out. Set 0 to
+    # disable fading and leave the last-known map on screen indefinitely.
+    #
+    # Object URI is the OSM public tile server -- fine for testing, but its
+    # usage policy forbids bulk downloading, so keep Blocks small. Blocks is the
+    # ring of tiles around the centre one, i.e. (2*B+1)^2 requests: 3 -> 49
+    # tiles, which at Zoom 18 covers roughly 800 m of ground. Tiles cache to
+    # ~/.cache/rviz_satellite and are never re-fetched, so pre-warm the cache by
+    # panning over the competition site while you still have internet.
+    - Alpha: 0.7
+      Blocks: 3
+      Class: rviz_satellite/AerialMap
+      Draw Behind: true
+      Enabled: true
+      Name: AerialMap
+      Object URI: https://tile.openstreetmap.org/{z}/{x}/{y}.png
+      TF tolerance: 0.1
+      Timeout: 3
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /vectornav/gnss
+      Value: true
+      Zoom: 18
     - Class: rviz_default_plugins/Marker
       Enabled: true
       Name: VelocityArrow

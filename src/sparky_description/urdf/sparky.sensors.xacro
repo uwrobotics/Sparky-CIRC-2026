@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+  UWRobotics Sparky - sensor frames
+
+  Frames for sensors that publish into TF but are not part of the SolidWorks
+  export. Kept out of sparky_description.urdf so re-exporting the CAD does not
+  clobber them.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    VectorNav VN-300 GNSS/INS.
+
+    The frame name MUST stay "vectornav": it is what the driver stamps into
+    every message header (frame_id in vectornav/config/vectornav.yaml), and
+    RViz resolves /vectornav/gnss through TF by that exact name. Rename one and
+    you must rename both, or every VectorNav display errors with
+    "Frame [vectornav] does not exist".
+
+    Orientation: the driver runs with use_enu:=true, which converts the sensor's
+    native Forward-Right-Down body axes into Right-Forward-Up. RFU is not
+    REP-103 (base_link is Forward-Left-Up), so the -90 deg yaw here is what
+    makes the published vectornav axes land where the data actually points:
+    child +x -> rover right, child +y -> rover forward, child +z -> up.
+
+    TODO: xyz is a placeholder. Measure the antenna/IMU offset from base_link
+    origin on the real rover. GNSS position error equals this error directly,
+    and it also sets the lever arm for any future robot_localization fusion.
+  -->
+  <link name="vectornav"/>
+
+  <joint name="base_link_to_vectornav" type="fixed">
+    <parent link="base_link"/>
+    <child link="vectornav"/>
+    <origin xyz="0 0 0.2" rpy="0 0 -1.5707963267948966"/>
+  </joint>
+
+</robot>

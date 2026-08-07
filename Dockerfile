@@ -39,6 +39,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-joy \
     ros-humble-teleop-twist-joy \
     ros-humble-rviz2 \
+    ros-humble-rviz-satellite \
     cppcheck \
     uncrustify \
     python3-gi \
