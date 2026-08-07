@@ -166,10 +166,10 @@ bool isOnlyDigits(String string) {
 
 // LED API
 
-void setColour(int r, int g, int b) {
-  r = (uint8_t)constrain(r, 0, 255);
-  g = (uint8_t)constrain(g, 0, 255);
-  b = (uint8_t)constrain(b, 0, 255);
+void setColour(int r_arg, int g_arg, int b_arg) {
+  uint8_t r = (uint8_t)constrain(r_arg, 0, 255);
+  uint8_t g = (uint8_t)constrain(g_arg, 0, 255);
+  uint8_t b = (uint8_t)constrain(b_arg, 0, 255);
 
   for (uint16_t i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, strip.Color(r, g, b));
@@ -178,16 +178,16 @@ void setColour(int r, int g, int b) {
   Serial.printf("setColour: To R(%d) G(%d) B(%d)\r\n", r, g, b);
 }
 
-void setBrightness(int b) {
-  b = (uint8_t)constrain(b, 0, 255);
+void setBrightness(int b_arg) {
+  uint8_t b = (uint8_t)constrain(b_arg, 0, 255);
 
   strip.setBrightness(b);
   strip.show();
   Serial.printf("setBrightness: To %d\r\n", b);
 }
 
-void setLength(int n) {
-  n = (uint16_t)max(MIN_PIXELS,n);
+void setLength(int n_arg) {
+  uint16_t n = (uint16_t)constrain(n_arg, MIN_PIXELS, UINT16_MAX);
 
   strip.updateLength(n);
   Serial.printf("setLength: To %d\r\n", n);
