@@ -23,8 +23,8 @@ import serial.tools.list_ports
 class UartSenderNode(Node):
     """Sends a one-time setup command, then a fixed repeating sequence, over UART."""
 
-    INIT_MESSAGE = 'pt250'
-    MESSAGES = ('pd6,25', 'pd8,75')
+    INIT_MESSAGE = 'sc125,0,255'
+    MESSAGES = ('sb50', 'sc255,0,0', 'sc0,255,0', 'sc125,0,255')
 
     def __init__(self):
         super().__init__('uart_sender_node')
