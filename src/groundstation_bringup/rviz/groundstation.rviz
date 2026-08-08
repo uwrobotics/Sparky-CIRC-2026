@@ -68,6 +68,30 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /sparky/velocity_marker
       Value: true
+    # SIYI gimbal camera feed, decoded on the groundstation by
+    # siyi_camera_launch.py. Reliability MUST stay Best Effort: siyi_camera_node
+    # publishes BEST_EFFORT so DDS backpressure cannot stall the stream, and a
+    # Reliable subscriber is simply incompatible -- RViz silently shows a blank
+    # panel and logs "offering incompatible QoS. No messages will be sent to it."
+    #
+    # This is the raw topic on purpose. /siyi/image_compressed does not follow
+    # the image_transport <base>/compressed convention, so RViz binds two message
+    # types to that one name and cannot display it.
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: SiyiCamera
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /siyi/image_raw
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -96,4 +120,8 @@ Window Geometry:
   Displays:
     collapsed: false
   Height: 846
+  # Key must match the Image display's Name -- that is how RViz restores the
+  # dock panel it renders the video into. Rename one and you must rename both.
+  SiyiCamera:
+    collapsed: false
   Width: 1200

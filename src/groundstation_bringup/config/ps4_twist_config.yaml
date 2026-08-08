@@ -6,11 +6,13 @@ joy_teleop:
       x: 10.0
     scale_linear_turbo:
       x: 1.0
+    scale_linear_turbo:
+      x: 2.0
     axis_angular:
       yaw: 3 # RJoy left-right (axis 2 is the L2 trigger under ROS2 joy/SDL)
     scale_angular:
       yaw: 5.0
     scale_angular_turbo:
-      yaw: 1.0
+      yaw: 1.5
     require_enable_button: false
     enable_turbo_button: 10  # R1 shoulder button

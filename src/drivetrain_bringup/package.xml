@@ -18,6 +18,7 @@
        groundstation_bringup. -->
   <exec_depend>sparky_description</exec_depend>
   <exec_depend>groundstation_bringup</exec_depend>
+  <exec_depend>vectornav</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

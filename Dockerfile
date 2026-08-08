@@ -51,6 +51,19 @@ RUN apt-get update && apt-get install -y \
     ros-humble-rviz2 \
     cppcheck \
     uncrustify \
+    python3-gi \
+    gir1.2-gstreamer-1.0 \
+    gstreamer1.0-tools \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav \
+    python3-opencv \
+    ros-humble-cv-bridge \
+    ros-humble-camera-info-manager \
+    ros-humble-camera-info-manager-py \
+    ros-humble-image-transport \
+    ros-humble-image-transport-plugins \
     && if [ "$(dpkg --print-architecture)" != "arm64" ]; then \
         apt-get install -y \
             ros-humble-gazebo-ros-pkgs \
@@ -64,6 +77,8 @@ ARG GROUP_ID=1000
 ARG USERNAME=devuser
 # Host 'input' group GID, for reading /dev/input/event* (game controllers).
 ARG INPUT_GID=994
+# Host 'dialout' group GID, for opening /dev/ttyUSB* (VectorNav VN-300).
+ARG DIALOUT_GID=20
 
 RUN groupadd -g $GROUP_ID -o $USERNAME 2>/dev/null || true && \
     useradd -m -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USERNAME 2>/dev/null || true && \
@@ -82,6 +97,9 @@ RUN groupadd -g $INPUT_GID -o hostinput 2>/dev/null || true && \
 # The ROS_DOMAIN_ID default also runs here because `exec` skips the entrypoint:
 # this guarantees interactive shells share the same DDS domain on every target
 # (amd64 / arm64), while still honoring an overriding ROS_DOMAIN_ID from compose.
+RUN groupadd -g $DIALOUT_GID -o hostdialout 2>/dev/null || true && \
+    usermod -aG $DIALOUT_GID $USERNAME 2>/dev/null || true
+
 RUN echo 'export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-47}"' >> /home/$USERNAME/.bashrc && \
     echo '[ -f /tmp/sparky_fastdds_profiles.xml ] && export FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/sparky_fastdds_profiles.xml' >> /home/$USERNAME/.bashrc && \
     echo 'source /opt/ros/humble/setup.bash' >> /home/$USERNAME/.bashrc && \
@@ -96,6 +114,11 @@ RUN chmod +x /docker-entrypoint.sh
 
 RUN rosdep update && \
     rosdep fix-permissions
+
+# import siyi_sdk
+ARG SIYI_SDK_REF=89c34b15a6660cdbf59578ea9053b761f67b186a
+RUN pip install --no-cache-dir \
+    "git+https://github.com/mzahana/siyi_sdk.git@${SIYI_SDK_REF}"
 
 USER $USERNAME
 
