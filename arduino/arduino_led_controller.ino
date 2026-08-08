@@ -2,9 +2,9 @@
 
 // NEODRIVER
 #define BOARD_ADDRESS 0x60
-#define NUM_PIXELS 5
 #define PIN 15
 
+#define NUM_PIXELS 500
 #define MIN_PIXELS 0
 
 // UART
@@ -12,7 +12,7 @@
 
 // PWM
 #define PWM_TIMEOUT 500 // in ms
-#define PWM_TIMEOUT_DUTY 0
+#define PWM_TIMEOUT_DUTY 7.5 // in percent
 #define PWM_FREQ 50 // in Hz
 #define PWM_RES 12 // bits
 #define PWM_CHANNEL 0
@@ -23,7 +23,7 @@ int pwm_prev_count = 0;
 bool pwm_active = false;
 
 // DEBUG
-const bool PWM_DEBUG = true;
+const bool PWM_DEBUG = false;
 
 // Arduino Code
 seesaw_NeoPixel strip = seesaw_NeoPixel(NUM_PIXELS, PIN, NEO_GRB + NEO_KHZ800);
@@ -207,7 +207,7 @@ void checkPWMTimeout() {
   int pwm_curr_count = millis();
   if (pwm_curr_count - pwm_prev_count >= pwm_timeout) {
     pwm_active = false;
-    ledcWrite(PWM_CHANNEL, PWM_TIMEOUT_DUTY);
+    ledcWrite(PWM_CHANNEL, (uint32_t)round(PWM_TIMEOUT_DUTY));
     Serial.printf("checkPWMTimeout: PWM timout reached\r\n");
   }
 }
