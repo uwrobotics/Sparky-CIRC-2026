@@ -3,7 +3,6 @@
 ## TODO
 
 - [ ] Validate Controller Mapping
-- [ ] Update RViz Config
 
 ## Launch
 
@@ -16,6 +15,12 @@ ros2 launch groundstation_bringup groundstation.launch.py
 | Arg | Default | Values |
 |---|---|---|
 | `joy_config` | `ps4` | `ps4`, `stadia`, `sn30pro`, `steamdeck`, `none` |
+| `use_gimbal_teleop` | `true` | Drive the SIYI gimbal with the controller D-pad. |
+| `use_camera` | `false` | Decode the SIYI RTSP feed into ROS image topics. |
+| `camera_host` | `192.168.144.25` | SIYI camera IP from the groundstation. |
+
+The camera feed is no longer displayed in RViz, so `use_camera` is off by
+default; set it to `true` if you want the image topics for another viewer.
 
 ## Configs
 

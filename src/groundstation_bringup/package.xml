@@ -12,9 +12,9 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>akros2_teleop</exec_depend>
+  <exec_depend>gimbal_teleop</exec_depend>
   <exec_depend>joy</exec_depend>
   <exec_depend>teleop_twist_joy</exec_depend>
-  <exec_depend>rviz2</exec_depend>
   <exec_depend>siyi_ros2</exec_depend>
 
   <export>
