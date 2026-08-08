@@ -23,8 +23,8 @@ import serial.tools.list_ports
 class UartSenderNode(Node):
     """Sends a one-time setup command, then a fixed repeating sequence, over UART."""
 
-    INIT_MESSAGE = 'pt10000'
-    MESSAGES = ('pd100,0', 'pd75,0', 'pd50,0', 'pd25,0')
+    INIT_MESSAGE = 'pt250'
+    MESSAGES = ('pd6,25', 'pd8,75')
 
     def __init__(self):
         super().__init__('uart_sender_node')
@@ -32,7 +32,7 @@ class UartSenderNode(Node):
         # Parameters
         self.declare_parameter('port', '/dev/ttyACM0')
         self.declare_parameter('baudrate', 115200)
-        self.declare_parameter('interval', 5.0)
+        self.declare_parameter('interval', 2.5)
         self.declare_parameter('startup_delay', 2.0)
 
         port = self.get_parameter('port').get_parameter_value().string_value
