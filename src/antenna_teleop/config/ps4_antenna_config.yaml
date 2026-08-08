@@ -1,0 +1,11 @@
+antenna_joy_node:
+  ros__parameters:
+    # Indices into sensor_msgs/Joy.buttons. Per
+    # groundstation_bringup/config/ps4_mapping.md, 4 is Share and 2 is Square.
+    # The D-pad left/right are 13 and 14 if you want those instead.
+    left_button: 4
+    right_button: 2
+
+    # Sent verbatim to the antenna Arduino, one per button press.
+    left_command: "pd6,75"
+    right_command: "pd8,75"
