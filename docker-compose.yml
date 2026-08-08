@@ -27,9 +27,20 @@ services:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
       - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/1000}
+      # ROS 2 DDS networking for multi-machine discovery over the access point.
+      # Both computers MUST share the same ROS_DOMAIN_ID; it also isolates us
+      # from other teams that leave the default (0). ROS_LOCALHOST_ONLY=0 keeps
+      # cross-machine discovery enabled.
       - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-47}
       - ROS_LOCALHOST_ONLY=0
+      # Interface (by name) that reaches the robot network, auto-detected by
+      # setup.sh. The entrypoint pins Fast DDS to this NIC so discovery multicast
+      # goes to the robot/AP link instead of the default-route (WiFi) interface.
+      # Empty -> DDS uses all interfaces (fine for single-homed machines).
       - ROS_NET_IFACE=${ROS_NET_IFACE:-}
+    # Add the host 'input' group so the container user can read /dev/input/event*
+    # (ROS2 joy_node reads evdev, not js0). INPUT_GID is detected by setup.sh;
+    # defaults to 994 (the usual Ubuntu 'input' GID).
     group_add:
       - "${INPUT_GID:-994}"
       - "${DIALOUT_GID:-20}"

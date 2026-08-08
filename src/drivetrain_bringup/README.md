@@ -2,28 +2,40 @@
 
 ## Usage
 
+### RViz + optional teleop (`drivetrain_rviz.launch.py`)
 ```bash
-#  Launch ODrive Hardware
+# Mock hardware + RViz (visualization only)
+ros2 launch drivetrain_bringup drivetrain_rviz.launch.py
+
+# Add PS4 teleop so a controller drives the rover
+ros2 launch drivetrain_bringup drivetrain_rviz.launch.py teleop:=true
+
+# Real ODrive hardware over CAN (later)
+ros2 launch drivetrain_bringup drivetrain_rviz.launch.py use_mock_hardware:=false can_interface:=can2
+```
+
+### Headless hardware bringup (`drivetrain.launch.py`)
+```bash
+# Launch ODrive Hardware
 ros2 launch drivetrain_bringup drivetrain.launch.py
 
-# Launch Mock Hardware 
+# Launch Mock Hardware
 ros2 launch drivetrain_bringup drivetrain.launch.py use_mock_hardware:=true
 ```
 
 ## Arguments
 
+### `drivetrain_rviz.launch.py`
+| Argument            | Default | Purpose                                              |
+|---------------------|---------|------------------------------------------------------|
+| `use_mock_hardware` | `true`  | `true`: mock (RViz only). `false`: real ODrive/CAN.  |
+| `can_interface`     | `can0`  | SocketCAN interface for the ODrive backend.          |
+| `rviz`              | `true`  | Launch RViz.                                         |
+| `teleop`            | `false` | Also launch PS4/joystick teleop (publishes `/cmd_vel`). |
+| `joy_config`        | `ps4`   | Controller profile: `ps4`, `stadia`, `sn30pro`, `steamdeck`. |
+
+### `drivetrain.launch.py`
 | Argument            | Default | Purpose                                      |
-|---------------------|---------|----------------------------------------------|
-| `use_mock_hardware` | `false` | `true`: DevHost. `false`: real ODrive/CAN.   |
+|---------------------|---------|-----------------------------------------------|
+| `use_mock_hardware` | `true`  | `true`: DevHost. `false`: real ODrive/CAN.   |
 | `can_interface`     | `can2`  | SocketCAN interface for the ODrive backend.  |
-| `use_imu`           | `true`  | Run the VectorNav VN-300 GNSS/INS driver.    |
-
-The SIYI gimbal/camera is **not** part of this bringup. Launch it separately:
-
-```bash
-# Gimbal control + telemetry
-ros2 launch siyi_ros2 siyi.launch.py host:=192.168.144.25
-
-# Camera stream (also included by groundstation.launch.py)
-ros2 launch groundstation_bringup siyi_camera_launch.py
-```

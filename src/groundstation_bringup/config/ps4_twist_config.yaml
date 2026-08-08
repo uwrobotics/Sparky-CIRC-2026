@@ -3,13 +3,15 @@ joy_teleop:
     axis_linear:
       x: 1 # LJoy up-down
     scale_linear:
+      x: 10.0
+    scale_linear_turbo:
       x: 1.0
     scale_linear_turbo:
       x: 2.0
     axis_angular:
       yaw: 3 # RJoy left-right (axis 2 is the L2 trigger under ROS2 joy/SDL)
     scale_angular:
-      yaw: 0.8
+      yaw: 5.0
     scale_angular_turbo:
       yaw: 1.5
     require_enable_button: false
