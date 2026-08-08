@@ -182,6 +182,12 @@ void setBrightness(int b_arg) {
   uint8_t b = (uint8_t)constrain(b_arg, 0, 255);
 
   strip.setBrightness(b);
+
+  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+    uint32_t currColour = strip.getPixelColor(i);
+    strip.setPixelColor(i, currColour);
+  }
+
   strip.show();
   Serial.printf("setBrightness: To %d\r\n", b);
 }
