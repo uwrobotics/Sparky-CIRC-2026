@@ -2,5 +2,9 @@
 /install
 /log
 
+# Device Dependent Config
 .env
 .vscode/
+
+# Generated Figs
+*.png

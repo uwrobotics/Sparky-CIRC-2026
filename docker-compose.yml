@@ -9,6 +9,7 @@ services:
         GROUP_ID: ${GROUP_ID:-1000}
         USERNAME: ${USERNAME:-devuser}
         INPUT_GID: ${INPUT_GID:-994}
+        DIALOUT_GID: ${DIALOUT_GID:-20}
         ROS_BASE_IMAGE: ${ROS_BASE_IMAGE:-osrf/ros:humble-desktop}
     container_name: ros2_humble_demo
     volumes:
@@ -18,9 +19,10 @@ services:
       - ./log:/ros2_ws/log:rw
       - ./scripts/build.sh:/ros2_ws/build.sh:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      # Live access to input devices (game controllers) — lets a controller
-      # plugged in after container start show up without recreating.
-      - /dev/input:/dev/input
+      # Whole /dev, not just /dev/input: privileged only snapshots the host's
+      # device nodes at container creation, so a USB device plugged in later
+      # (VN-300 on /dev/ttyUSB*) never shows up inside the container.
+      - /dev:/dev
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
@@ -41,6 +43,7 @@ services:
     # defaults to 994 (the usual Ubuntu 'input' GID).
     group_add:
       - "${INPUT_GID:-994}"
+      - "${DIALOUT_GID:-20}"
     cap_add:
       - sys_nice
     ulimits:

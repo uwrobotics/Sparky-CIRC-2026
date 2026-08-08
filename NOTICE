@@ -25,4 +25,53 @@ src/akros2_msgs  (git submodule)
   License:  Apache License, Version 2.0
   Copyright (c) 2023 Aditya Kamath
   See: src/akros2_msgs/LICENSE
+
+--------------------------------------------------------------------------------
+src/siyi_msgs  (git submodule)
+  Upstream: https://github.com/mzahana/siyi_msgs
+  License:  MIT
+  Copyright (c) Mohamed Abdelkader
+  Note:     Upstream ships no LICENSE file and no copyright headers. The MIT
+            grant is declared only in package.xml (<license>MIT</license>), so
+            there is no upstream notice text to reproduce verbatim here.
+
+--------------------------------------------------------------------------------
+src/siyi_ros2  (git submodule)
+  Upstream: https://github.com/mzahana/siyi_ros2
+  License:  MIT
+  Copyright (c) Mohamed Abdelkader
+  Note:     Same as siyi_msgs above -- MIT is declared in package.xml only,
+            with no LICENSE file or copyright header upstream.
+
+--------------------------------------------------------------------------------
+siyi_sdk  (Python dependency, NOT vendored in this repository)
+  Upstream: https://github.com/mzahana/siyi_sdk  (branch siyi-sdk-v2)
+  License:  MIT
+  Copyright (c) SIYI SDK Contributors
+  Note:     Not available on PyPI. Installed into the Docker image at build
+            time by Dockerfile, pinned to a commit via the SIYI_SDK_REF build
+            argument. Anyone redistributing that image redistributes this
+            package too.
+
+--------------------------------------------------------------------------------
+utils/ros2-migration-tools  (git submodule)
+  Upstream: https://github.com/awslabs/ros2-migration-tools
+  License:  Apache License, Version 2.0
+  Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+  See: utils/ros2-migration-tools/LICENSE and utils/ros2-migration-tools/NOTICE
+  Note:     Development utility only; carries COLCON_IGNORE and is not built
+            into the workspace. Apache-2.0 section 4(d) requires that the
+            attribution above be carried in redistributions of this repository.
+
+--------------------------------------------------------------------------------
+Docker image runtime components  (installed at build time, not vendored here)
+  The image built from Dockerfile pulls ROS 2 Humble and a GStreamer video
+  stack from the Ubuntu and ROS archives. GStreamer core and its base/good/bad
+  plugin sets are LGPL-2.1-or-later; gstreamer1.0-libav wraps FFmpeg, which
+  Ubuntu packages under LGPL-2.1-or-later.
+
+  gstreamer1.0-plugins-ugly is deliberately NOT installed. It is unnecessary
+  for the H.264/H.265 decode path used by siyi_camera_node (which needs only
+  decodebin plus avdec_h26x from libav) and it carries additional codec
+  licensing obligations. Do not add it without checking that trade-off.
 --------------------------------------------------------------------------------
