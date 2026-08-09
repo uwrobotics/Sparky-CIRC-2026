@@ -5,10 +5,10 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    forward_velocity_controller:
+    forward_position_controller:
       type: forward_command_controller/ForwardCommandController
 
-forward_velocity_controller:
+forward_position_controller:
   ros__parameters:
     joints:
       - Joint_1
@@ -17,4 +17,4 @@ forward_velocity_controller:
       - Joint_4
       - Joint_5
       - Joint_6
-    interface_name: velocity
+    interface_name: position

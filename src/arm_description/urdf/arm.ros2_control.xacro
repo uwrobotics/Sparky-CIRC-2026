@@ -18,7 +18,7 @@
       <xacro:macro name="arm_joint" params="name node_id">
         <joint name="${name}">
           <param name="node_id">${node_id}</param>
-          <command_interface name="velocity"/>
+          <command_interface name="position"/>
           <state_interface name="position"/>
           <state_interface name="velocity"/>
         </joint>
