@@ -33,12 +33,12 @@ class AntennaJoyNode(Node):
 
         # Button indices into sensor_msgs/Joy.buttons. See the mapping table in
         # groundstation_bringup/config/ps4_mapping.md.
-        self.declare_parameter('left_button', 4)
-        self.declare_parameter('right_button', 2)
+        self.declare_parameter('left_button', 3)
+        self.declare_parameter('right_button', 1)
 
         # Command strings sent verbatim to the Arduino, newline-terminated by
         # the UART node.
-        self.declare_parameter('left_command', 'pd6,75')
+        self.declare_parameter('left_command', 'pd6,25')
         self.declare_parameter('right_command', 'pd8,75')
 
         # Bindings are evaluated in order, so if both buttons are pressed in
