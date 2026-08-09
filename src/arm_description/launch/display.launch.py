@@ -49,7 +49,7 @@ def launch_setup(context, *args, **kwargs):
             period=3.0,
             actions=[
                 ExecuteProcess(
-                    cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'forward_velocity_controller'],
+                    cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'forward_position_controller'],
                     output='screen'
                 ),
             ]
