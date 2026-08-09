@@ -45,8 +45,12 @@ def generate_launch_description():
             'jpeg_quality', default_value='80',
             description='JPEG quality for the compressed topic (1 to 100).'),
         DeclareLaunchArgument(
-            'latency_ms', default_value='0',
-            description='GStreamer rtspsrc buffer. 0: lowest latency.'),
+            'latency_ms', default_value='200',
+            description=(
+                'GStreamer rtspsrc jitter buffer. 0 disables it entirely, which '
+                'makes rtpjitterbuffer discard any late/reordered packet -- over '
+                'the AP link that costs reference frames and the decoder logs '
+                '"Could not find ref with POC". 200 measured clean.'),),
         DeclareLaunchArgument(
             'frame_id', default_value='siyi_camera',
             description='TF frame stamped on published images.'),
@@ -111,6 +115,11 @@ def generate_launch_description():
             'LD_PRELOAD': 'libgstreamer-1.0.so.0',
             'GSETTINGS_BACKEND': 'memory',
         },
+        # The A8 drops its RTSP session ~30-50 s after sustained gimbal commands
+        # and the GStreamer backend never reconnects. Nothing detects that stall
+        # any more, so respawn only covers an outright crash of the node.
+        respawn=True,
+        respawn_delay=0.5,
     )
 
     # The SIYI SDK is extremely chatty at default log levels; GStreamer's level is
