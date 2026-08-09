@@ -94,6 +94,9 @@
       link="base_link" />
     <child
       link="Front_Left_Wheel" />
+    <!-- Left wheels: axis flipped to 0 0 -1 (matching the right side) so a
+         positive joint value rolls the wheel forward in RViz, consistent with
+         diff_drive_controller sending the same sign to both sides. -->
     <axis
       xyz="0 0 -1" />
   </joint>
@@ -200,6 +203,9 @@
       link="base_link" />
     <child
       link="Center_Left_Wheel" />
+    <!-- Left wheels: axis flipped to 0 0 -1 (matching the right side) so a
+         positive joint value rolls the wheel forward in RViz, consistent with
+         diff_drive_controller sending the same sign to both sides. -->
     <axis
       xyz="0 0 -1" />
   </joint>
@@ -306,6 +312,9 @@
       link="base_link" />
     <child
       link="Rear_Left_Wheel" />
+    <!-- Left wheels: axis flipped to 0 0 -1 (matching the right side) so a
+         positive joint value rolls the wheel forward in RViz, consistent with
+         diff_drive_controller sending the same sign to both sides. -->
     <axis
       xyz="0 0 -1" />
   </joint>

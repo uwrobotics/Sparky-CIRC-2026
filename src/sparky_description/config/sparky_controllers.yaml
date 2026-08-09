@@ -27,9 +27,15 @@ diff_drive_controller:
       - Center_Right_Wheel_Joint
       - Rear_Right_Wheel_Joint
 
-    # TODO: @Saheed Double Check
-    wheel_separation: 0.969   # [m]
-    wheel_radius: 0.099       # [m]
+    # Geometry (measured, Tasi design):
+    #   wheel_radius:     0.099 m
+    #   wheel_width:      0.115 m
+    #   separation front/center: 0.969 m   (rear axle is narrower at 0.877 m)
+    #   base footprint:   1.081 x 0.902 x 0.261 m
+    # diff_drive_controller takes a single separation; using the front/center
+    # value. If odometry drifts on turns, tune wheel_separation_multiplier.
+    wheel_separation: 0.969   # [m] front/center axle, L-R
+    wheel_radius: 0.099       # [m] Tasi design
 
     wheel_separation_multiplier: 1.0
     left_wheel_radius_multiplier: 1.0
