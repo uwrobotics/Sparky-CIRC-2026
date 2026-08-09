@@ -73,14 +73,12 @@ def generate_launch_description():
 
     # Holds the serial link to the antenna's Arduino and is the only subscriber
     # of /antenna/uart_tx, which antenna_teleop publishes from the
-    # groundstation buttons. Without it those commands go nowhere. The bench
-    # test cycle is off so it cannot fight the joystick commands.
+    # groundstation buttons. Without it those commands go nowhere.
     antenna_uart_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution(
             [FindPackageShare('uart_arduino_communicator'), 'launch', 'uart.launch.py'])),
         launch_arguments={
             'port': antenna_port,
-            'enable_demo_cycle': 'false',
         }.items(),
         condition=IfCondition(use_antenna),
     )

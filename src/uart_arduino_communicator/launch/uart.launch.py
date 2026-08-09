@@ -22,13 +22,6 @@ def generate_launch_description():
             description='UART baud rate, must match the Arduino sketch.'),
 
         DeclareLaunchArgument(
-            name='enable_demo_cycle',
-            default_value='false',
-            description=(
-                'Run the built-in bench test cycle. Off here so it cannot '
-                'fight the commands coming from antenna_teleop.'),),
-
-        DeclareLaunchArgument(
             name='command_topic',
             default_value='/antenna/uart_tx',
             description='Topic carrying std_msgs/String commands for the Arduino.'),
@@ -39,14 +32,12 @@ def generate_launch_description():
             name='uart_sender_node',
             output='screen',
             # Launch substitutions resolve to strings; the node declares
-            # baudrate as an int and enable_demo_cycle as a bool, so both need
-            # an explicit value_type or the node rejects them at startup.
+            # baudrate as an int, so it needs an explicit value_type or the
+            # node rejects it at startup.
             parameters=[{
                 'port': LaunchConfiguration('port'),
                 'baudrate': ParameterValue(
                     LaunchConfiguration('baudrate'), value_type=int),
-                'enable_demo_cycle': ParameterValue(
-                    LaunchConfiguration('enable_demo_cycle'), value_type=bool),
             }],
             remappings=[('uart_tx', LaunchConfiguration('command_topic'))]),
     ])

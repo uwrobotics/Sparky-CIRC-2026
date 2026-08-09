@@ -9,8 +9,8 @@ antenna's Arduino over USB serial.
 
 | Input | Command sent | Meaning |
 |-------|--------------|---------|
-| Button 4 | `pd6,75` | Antenna left |
-| Button 2 | `pd8,75` | Antenna right |
+| Button 3 (Triangle) | `pd6,25` | Antenna left |
+| Button 1 (Circle) | `pd8,75` | Antenna right |
 
 One command is sent per press, on the rising edge. `joy_node` runs with
 `autorepeat_rate: 20.0`, so `/joy` keeps arriving while a button is held; a
@@ -35,16 +35,16 @@ ros2 launch antenna_teleop antenna_teleop.launch.py
 
 | Parameter       | Default  | Description                          |
 |-----------------|----------|--------------------------------------|
-| `left_button`   | `4`      | `Joy.buttons` index for left         |
-| `right_button`  | `2`      | `Joy.buttons` index for right        |
-| `left_command`  | `pd6,75` | String sent when left is pressed     |
+| `left_button`   | `3`      | `Joy.buttons` index for left         |
+| `right_button`  | `1`      | `Joy.buttons` index for right        |
+| `left_command`  | `pd6,25` | String sent when left is pressed     |
 | `right_command` | `pd8,75` | String sent when right is pressed    |
 
 Defaults live in [config/ps4_antenna_config.yaml](config/ps4_antenna_config.yaml).
 
-Per [ps4_mapping.md](../groundstation_bringup/config/ps4_mapping.md), button 4
-is Share and button 2 is Square. If you meant the D-pad, those are 13 (left) and
-14 (right) — change the two indices in the config.
+Per [ps4_mapping.md](../groundstation_bringup/config/ps4_mapping.md), button 3
+is Triangle and button 1 is Circle. If you meant the D-pad, those are 13 (left)
+and 14 (right) — change the two indices in the config.
 
 ## Checking it
 
