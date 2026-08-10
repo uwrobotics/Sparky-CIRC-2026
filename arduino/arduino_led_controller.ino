@@ -11,7 +11,7 @@
 #define MAX_LINE_READS 5
 
 // PWM
-#define PWM_TIMEOUT 500 // in ms
+#define PWM_TIMEOUT 250 // in ms
 #define PWM_TIMEOUT_DUTY 7.5 // in percent
 #define PWM_FREQ 50 // in Hz
 #define PWM_RES 12 // bits
