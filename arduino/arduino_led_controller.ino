@@ -201,7 +201,7 @@ void setLength(int n_arg) {
 
 // PWM API
 
-int percentToBits(int percent, int resolution) {
+int percentToBits(float percent, int resolution) {
   return round((percent / 100.0) * pow(2, resolution));
 }
 
