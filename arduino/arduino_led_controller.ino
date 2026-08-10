@@ -201,13 +201,17 @@ void setLength(int n_arg) {
 
 // PWM API
 
+int percentToBits(int percent, int resolution) {
+  return round((percent / 100.0) * pow(2, resolution));
+}
+
 void checkPWMTimeout() {
   if (!pwm_active) return;
 
   int pwm_curr_count = millis();
   if (pwm_curr_count - pwm_prev_count >= pwm_timeout) {
     pwm_active = false;
-    uint32_t value = (uint32_t)round((PWM_TIMEOUT_DUTY / 100.0) * pow(2, PWM_RES));
+    uint32_t value = (uint32_t)percentToBits(PWM_TIMEOUT_DUTY, PWM_RES);
     ledcWrite(PWM_CHANNEL, value);
     Serial.printf("checkPWMTimeout: PWM timout reached\r\n");
   }
@@ -229,7 +233,7 @@ void setPWMDutyCyclePercent(int percent, int decimal) {
   decimal = max(0, decimal);
 
   float full_percent = percent + (float)decimal / pow(10.0, String(decimal).length());
-  uint32_t value = (uint32_t)round((full_percent / 100.0) * pow(2, PWM_RES));
+  uint32_t value = (uint32_t)percentToBits(full_percent, PWM_RES);
 
   resetPWMTimout();
 
