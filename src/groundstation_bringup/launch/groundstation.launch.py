@@ -15,6 +15,7 @@ def generate_launch_description():
     use_camera = LaunchConfiguration('use_camera')
     camera_host = LaunchConfiguration('camera_host')
     use_gimbal_teleop = LaunchConfiguration('use_gimbal_teleop')
+    use_antenna_teleop = LaunchConfiguration('use_antenna_teleop')
 
     declared_args = [
         DeclareLaunchArgument(
@@ -29,6 +30,9 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'use_gimbal_teleop', default_value='true',
             description='Drive the SIYI gimbal with the controller D-pad.'),
+        DeclareLaunchArgument(
+            'use_antenna_teleop', default_value='true',
+            description='Steer the tracking antenna with the controller buttons.'),
         DeclareLaunchArgument(
             'camera_host', default_value='192.168.144.25',
             description='SIYI camera IP as reachable from the groundstation.'),
@@ -54,8 +58,18 @@ def generate_launch_description():
         condition=IfCondition(use_gimbal_teleop),
     )
 
+    # Publishes /antenna/uart_tx, which the rover-side UART node (launched by
+    # drivetrain_bringup) forwards to the antenna's Arduino over serial.
+    antenna_teleop_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(PathJoinSubstitution(
+            [FindPackageShare('antenna_teleop'), 'launch', 'antenna_teleop.launch.py'])),
+        launch_arguments={'joy_config': joy_config}.items(),
+        condition=IfCondition(use_antenna_teleop),
+    )
+
     return LaunchDescription(declared_args + [
         teleop_launch,
         siyi_camera_launch,
         gimbal_teleop_launch,
+        antenna_teleop_launch,
     ])
