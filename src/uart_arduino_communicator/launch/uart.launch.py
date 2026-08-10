@@ -26,6 +26,11 @@ def generate_launch_description():
             default_value='/antenna/uart_tx',
             description='Topic carrying std_msgs/String commands for the Arduino.'),
 
+        DeclareLaunchArgument(
+            name='telemetry_topic',
+            default_value='/antenna/uart_rx',
+            description='Topic the Arduino\'s serial output is republished on.'),
+
         Node(
             package='uart_arduino_communicator',
             executable='UAC_node',
@@ -39,5 +44,8 @@ def generate_launch_description():
                 'baudrate': ParameterValue(
                     LaunchConfiguration('baudrate'), value_type=int),
             }],
-            remappings=[('uart_tx', LaunchConfiguration('command_topic'))]),
+            remappings=[
+                ('uart_tx', LaunchConfiguration('command_topic')),
+                ('uart_rx', LaunchConfiguration('telemetry_topic')),
+            ]),
     ])
